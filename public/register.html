@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<link href="https://fonts.googleapis.com/css?family=Neucha&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+<body>
+    <div class="container">
+            <h1>The Shoe Shop</h1>
+            <div class="nav-bar">
+                <a href="/index.html">Home</a>
+                <a href="url">Products</a>
+                <a href="#">Login/Sign Up</a>
+            </div>
+            <div id="logs"></div>
+            <div class="form-container">
+                <div class="tab-container">
+                    <div id="tab-signup" ><span data-value="signup">Sign up</span></div>
+                    <div id="tab-login"><span data-value="login">Login</span></div>
+                </div>
+                <div class="form-wrapper">
+                    <form class="sign-up" id="signupForm" action="#" method="POST" enctype="multipart/form-data">
+                        <div class="form-row">
+                            <label>First Name: </label>
+                            <input type="text" name="fname" required>
+                        </div>
+                        <div class="form-row">
+                            <label>Last Name: </label>
+                            <input type="text" name="lname" required>
+                        </div>
+                        <div class="form-row">
+                            <label>Email: </label>
+                            <input type="text" name="email" required>   
+                        </div>
+                        <div class="form-row">
+                            <label>Password: </label>
+                            <input type="password" name="pw1" required>
+                        </div>
+                        <div class="form-row">
+                            <label>Repeat Password: </label>
+                            <input type="password" name="pw2" required>
+                        </div>
+                        <input type="submit" value="Submit!">
+                    </form>
+                    <form class="login" id="loginForm" action="#" method="POST" enctype="multipart/form-data">
+                        <div class="form-row">
+                            <label>Email: </label>
+                            <input type="text" name="email" value="victor@gmail.com" required>   
+                        </div>
+                        <div class="form-row">
+                            <label>Password: </label>
+                            <input type="password" name="pw" value="12345" required>
+                        </div>
+                        <input type="submit" value="Submit!">
+                    </form>
+                </div>
+            </div>
+    </div>
+
+</body>
+<script>
+   const signUp = document.getElementById("signupForm");
+   const login = document.getElementById("loginForm");
+   const logs = document.getElementById("logs");
+   const tabs = document.querySelector(".tab-container");
+   const signupTab = document.querySelector("#tab-signup span");
+   const loginTab = document.querySelector("#tab-login span");
+   const signupForm = document.querySelector(".sign-up");
+   const loginForm = document.querySelector(".login");
+
+   tabs.addEventListener('click', (e)=>{
+       if(e.target.dataset.value == "signup"){
+           //Show Signup
+           signupTab.style.background = "white";
+           loginTab.style.background = "rgb(228, 228, 228)"
+           loginForm.style.zIndex= "1"
+           signupForm.style.zIndex = "2";
+
+       }
+       else if (e.target.dataset.value == "login" ){
+           //Show Login
+           loginTab.style.background = "white"
+           signupTab.style.background = "rgb(228, 228, 228)";
+           loginForm.style.zIndex = "2"
+           signupForm.style.zIndex = "1";
+           
+       }
+    
+   })
+   signUp.addEventListener('submit', function(e){
+        //Prevents page from reloading and navigating away.
+        e.preventDefault();
+        let formData =  new FormData(signUp);
+        //Outputs data from the formData in this pattern: key value
+    //    for( let key of formData.entries()){
+    //        console.log(key[0] + " " + key[1]); 
+    //    }
+        logs.innerHTML = "";
+        fetch('/signUp', {
+            method : 'post',
+            body : formData,
+            headers : {
+                'Accept' : 'application/json'
+            }
+        }).then((response) =>{
+            
+            errorLogs(response,logs)
+            if(response.status == 200){
+                signUp.reset();  
+            }
+            
+        })
+        
+    })
+    login.addEventListener('submit', function(e){
+         //Prevents page from reloading and navigating away.
+         e.preventDefault();
+        let formData =  new FormData(login);
+
+        logs.innerHTML = "";
+        fetch('/login', {
+            method : 'post',
+            body : formData,
+            headers : {
+                'Accept' : 'application/json'
+            }
+        }).then((response) =>{
+            errorLogs(response,logs)
+            if(response.status == 200){
+                login.reset();  
+            }
+            
+        })
+    })
+    function errorLogs( promiseData, logs){
+        let cls = 'success';
+        let returnData = [];
+        if(promiseData.status == 422){
+            cls = 'danger';
+        }
+        promiseData.json()
+            .then((e) => {
+                for(let i of e){
+                    returnData.push(`<div class="${cls}">${i}</div>`);
+                }
+                logs.innerHTML = returnData.join('');
+            })
+    }
+</script>
+</html>
