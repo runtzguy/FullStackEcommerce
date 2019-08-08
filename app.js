@@ -3,6 +3,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const PORT = process.env.PORT || 5000;
+const path = require('path');
+
 
 
 // const flash = require('connect-flash');
@@ -21,26 +23,39 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('short'));
 app.use(express.static('./public')); 
 
+//Load View Engine
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'pug')
+
+
 //Routes
-const formRouter = require('./api/routes/formRouter');
-app.use(formRouter)
+const userRouter = require('./api/routes/user');
+
+app.use('/user', userRouter)
 
 
-console.log("ON APP *******")
-app.get('/', (req,res,next) =>{
-    res.sendFile(path.join(__dirname + '/public/index.html'));
-    res.end();
+console.log("ON APP *******") 
+app.get('/', (req,res) =>{
+    res.render('layouts/indexImg')
 })
-
+app.get('/loginSignup', (req,res) =>{
+    res.render('layouts/loginSignUp')
+})
+app.get('/login', (req,res) =>{
+    res.render('layouts/login');
+})
+app.get('/signUp', (req,res) =>{
+    res.render('layouts/signUp');
+})
 
 //Handles request errors
 app.use((req,res,next) => {
-    const error = new Error('Not Found');
+    const error = new Error('Not Found, Go somewhere else');
     error.status = 404;
     next(error);
 })
 
-app.use((error, req, res, next) => {
+app.use((error, req, res) => {
     res.status(error.status || 500);
     res.json({
         error: {
