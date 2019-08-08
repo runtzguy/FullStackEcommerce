@@ -1,0 +1,39 @@
+extends index
+
+block content
+    mixin default()
+        script.
+            document.addEventListener("DOMContentLoaded", function(){
+                let forms = document.querySelector('.forms');
+                let formWrapper = document.querySelector('.form-wrapper');
+            })
+      
+            
+    script.
+        document.addEventListener("DOMContentLoaded", function(e) { 
+            const tabs = document.querySelector(".tab-container");
+            const signupTab = document.querySelector("#tab-signup");
+            const loginTab = document.querySelector("#tab-login");
+        }); 
+    if errors
+        each error, i in errors
+            console.log(i)
+            div(class="danger") #{error.msg}    
+    .form-container
+        .tab-container
+            #tab-signup
+                a(href="/signUp" data-value="signup") Sign Up
+            #tab-login
+                a(href="/login" data-value="login") Login
+        .form-wrapper
+            form#loginForm.forms(action='/user/login' method='POST' enctype='multipart/form-data')
+                .form-row
+                label Email: 
+                input(type='text' name='email' required='')
+                .form-row
+                label Password: 
+                input(type='password' name='pw' required='')
+                input(type='submit' value='Submit!')  
+            block content2
+            
+                

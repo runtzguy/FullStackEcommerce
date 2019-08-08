@@ -1,0 +1,26 @@
+doctype html
+html
+    head
+        link(rel='stylesheet', href="/css/style.css", type="text/css")
+        link(rel='stylesheet', href="https://fonts.googleapis.com/css?family=Neucha&display=swap")
+
+    body
+        .container
+            h1 The Shoe Shop 2
+            .nav-bar
+                a(href="/") Home
+                a(href="#") Products
+                a(href="#") Account
+            h2 Welcome #{data.fName} #{data.lName} !
+            //- if tokenKey
+            //-     div(class="success") #{tokenKey}
+    script.
+        /*
+             Why does this work? -- let data2 = !{JSON.stringify(data)} 
+             Explanation below:
+                In order to access the external information inside the template, 
+                you need to nest it inside a script tag and use JSON.stringify in combination with 
+                unescaped Pug string interpolation to render it in the HTML as below.
+        */
+        let data2 = !{JSON.stringify(data)}
+        console.log((data2));
