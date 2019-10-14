@@ -1,29 +1,28 @@
-const Sequelize = require("sequelize");
+const sequelize = require("sequelize");
 const db = require("../database/db");
+const bcrypt = require('bcrypt');
 
-module.exports = db.sequelize.define(
-    'Customer',
-    {
-        CUS_ID : {
-            type: Sequelize.STRING,
-            primaryKey : true,
-            autoIncrement : false
+module.exports = function(sequelize, DataTypes){
+    let User = sequelize.define("User", {
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+            validate: {
+              isEmail: true
+            }
         },
-        CUS_FName : {
-            type : Sequelize.STRING
-        },
-        CUS_LName : {
-            type : Sequelize.STRING
-        },
-        CUS_Email : {
-            type : Sequelize.STRING
-        },
-        CUS_PW : {
-            type : Sequelize.STRING
+        password: {
+            type: DataTypes.STRING,
+            allowNull : false,
         }
-    },
-    {
-        timestamps: false
-    }
-);
-
+    });
+    User.prototype.validPassword = function(password) {
+        return bcrypt.compareSync(password, this.password);
+    };
+    User.hook("beforeCreate", function(user) {
+        user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
+      });
+    
+      return User;
+};

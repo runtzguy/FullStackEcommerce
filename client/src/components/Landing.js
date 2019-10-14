@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import '../App.css';
 import img from '../img/home-page.jpg';
-
-import {useSelector, useDispatch, connect} from 'react-redux';
-import {isLoggedIn, loggedFirstName, loggedLastName} from '../actions/index'
 import {bindActionCreators} from 'redux'
+import {useSelector, useDispatch, connect} from 'react-redux';
+//Actions
+import {isLoggedIn, loggedFirstName, loggedLastName} from '../actions/index'
+
 
 class Landing extends Component {
    

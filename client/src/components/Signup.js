@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import '../App.css';
 import {bindActionCreators} from 'redux'
 import {useSelector, useDispatch, connect} from 'react-redux';
+//Actions
+import {isLoggedIn, loggedFirstName, loggedLastName, showErrors, clearErrors, successErrors} from '../actions/index'
 
-import {isLoggedIn, loggedFirstName, loggedLastName, showErrors, clearErrors} from '../actions/index'
-
-
+// Renders Signup component 
 class Signup extends Component {
     constructor(){
         super();
@@ -19,19 +19,19 @@ class Signup extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    //Clears error alerts when navigating back to this component
     componentDidMount(){
-        //Clears error alerts when navigating back to this component
         if(this.props.errorAlerts){
             this.props.clearErrors();
         }
     }
-    
+
     handleSubmit(e){
         //Prevents page from reloading and navigating away.
         e.preventDefault();
-        let formData =  new FormData(e.target);
         //Outputs data from the formData in this pattern: key value
-    
+        let formData =  new FormData(e.target);
+        
         fetch('/user/signUp', {
             method : 'post',
             body : formData,
@@ -40,14 +40,20 @@ class Signup extends Component {
             }
         }).then((response) =>{
             return (response.json().then( d=> {return JSON.parse(JSON.stringify(d))}))
-        }).then((data)=>{
-            let errorArr = data.errors;
-                errorArr.forEach((err)=>{
-                    this.props.showErrors(err.msg)
-                })
+        }).then( data =>  new Promise((resolve, reject) => {
+                this.props.clearErrors();
+                if(data.errors) reject(data.errors);
+                console.log(data);
+                this.props.successErrors(data.msg);
+            })
+        ).catch(errors => {
+            errors.forEach((err)=>{
+                this.props.showErrors(err.msg)
+            })
         })
 
     }
+    //Allows user to edit input box
     handleChange(e){
         let keyName = e.target.name;
         this.setState({[keyName] : e.target.value})
@@ -88,6 +94,6 @@ function mapStateToProps(state){
 }
 
 function matchDispatchToProps(dispatch){
-    return bindActionCreators({loggedFirstName,loggedLastName,isLoggedIn, showErrors, clearErrors}, dispatch)
+    return bindActionCreators({loggedFirstName,loggedLastName,isLoggedIn, showErrors, clearErrors, successErrors}, dispatch)
 }
 export default connect(mapStateToProps, matchDispatchToProps)(Signup);

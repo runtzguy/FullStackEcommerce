@@ -10,6 +10,10 @@ const { check, validationResult, body, expressValidator } = require('express-val
 const jwt = require("jsonwebtoken");
 const cookieSession = require('cookie-session');
 const flash = require("connect-flash");
+
+//Import User Model
+var userModel = require("../../models/Users");
+
 /* Module for handling multipart bodies. IE: multipart/form-data (important)
 
         Multer adds a body object and a file or files object to the request object. 
@@ -113,11 +117,11 @@ app.post('/signUp', upload.none(), [
                     (err)=> {
                         if(err) throw err;
                         console.log(`Sucessfully inserted Customer ${fname} ${lname}`);
+                        res.status(200).json({msg:'Successful Signup'});
                 });
             })
         
         });
-        res.status(200).json({msg:'Successful Signup'});
     }).catch( async (err)=>{
         await errors.errors.push({
             msg: 'Email already in use. Please use another',
@@ -144,36 +148,30 @@ app.post('/login', upload.none(), [
     const errorFormatter2 = ({msg}) => {
         return `${msg}`;
     }
-    console.log(req.body);
+    console.log( req.body);
     checkCred(req.body.email, req.body.pw, db)
     .then((d)=>{
         //Found email
+        d = JSON.parse(JSON.stringify(d));
         const userData = {...d}
         //JWT returns a promise so response must be put inside.
-        jwt.sign({userData}, 'verysecretkey', {expiresIn : '1h'}, (err, token) =>{
-            if(err) {
-                console.log(" JWT Error: "+err);
-                throw err
-            };
-            //Set token to be sent to client
-            req.session.jwt = token;
-            res.json(
-                {
-                    fName : userData['fName'],
-                    lName : userData['lName'],
-                    isLoggedIn : true
-                }
-            );
-        })
-        // res.status(200).json({message: 'Successfully Log In'});
-        console.log(req.protocol + '://' + req.get('host') + '/layouts/account');
+        let token = jwt.sign({userData}, 'verysecretkey', {expiresIn : '1h'})
+        res.status(200).json({
+            fName : userData['fName'],
+            lName : userData['lName'],
+            isLoggedIn : true,
+            token : token,
+            msg : 'Successfully Logged In'
+        });
+        
+        
     })
     .catch((err)=>{
-        //No Email
+        //No Email - Unauthorized email
         let errors = validationResult(req).formatWith(errorFormatter2);
         errors.errors.push(err);
         console.log("LOGIN ERRORS: " + JSON.stringify(errors));
-        res.status(406);
+        res.status(401);
         res.json(errors);
         // res.redirect().json(errors.array());
     })
@@ -243,5 +241,4 @@ function verifyToken(req, res, next) {
     }
     next();
 }
-
 module.exports = app;

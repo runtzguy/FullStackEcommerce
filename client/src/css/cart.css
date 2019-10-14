@@ -1,0 +1,24 @@
+.cart-container {
+    position: fixed;
+    bottom : 30px;
+    right : 30px;
+}
+.cart:hover {
+    cursor: pointer;
+    color: #fdd5d5;
+}
+.cart {
+    position: relative;
+    font-size: 30px;
+    color: rgb(128, 56, 128);
+    transform: translate(22%, 32%);
+}
+
+.cart-container:first-child::before{
+    content: '';
+    position: absolute;
+    background-color: #eb6767;
+    border-radius: 50%;
+    width: 150%;
+    height: 150%;
+}

@@ -1,0 +1,20 @@
+.checkout {
+    position: absolute;
+    bottom: 0px;
+    left: 135px;
+    width: 30%;
+    min-height: 30px;
+    margin: 20px auto;
+    background-color: #eb6767;
+    color: black;
+    padding: 5px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 50%;
+    border: 2px solid rgb(228, 228, 228);
+    font-size: 19px;
+}
+.checkout:hover {
+    color: white;
+}

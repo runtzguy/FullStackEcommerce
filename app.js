@@ -36,17 +36,9 @@ app.use('/user', userRouter)
 
 console.log("ON APP *******") 
 app.get('/', (req,res) =>{
-    res.render('layouts/indexImg')
 })
-app.get('/loginSignup', (req,res) =>{
-    res.render('layouts/loginSignUp')
-})
-app.get('/login', (req,res) =>{
-    res.render('layouts/login');
-})
-app.get('/signUp', (req,res) =>{
-    res.render('layouts/signUp');
-})
+
+
 
 //Handles request errors
 app.use((req,res,next) => {
@@ -67,5 +59,7 @@ app.use((error, req, res) => {
 app.listen(PORT, ()=> {
     console.log( `APP: Server running on ${PORT}`);
 })
-
+function isAuthenticated(req, res, next){
+    console.log(req.body);
+}
 module.exports = app;

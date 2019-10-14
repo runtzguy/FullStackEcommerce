@@ -31,3 +31,11 @@ export const clearErrors = () => {
         type: 'CLEAR_ERRORS'
     }
 }
+
+
+export const successErrors = (success) => {
+    return {
+        type: 'SUCCESS',
+        payload: success
+    }
+}

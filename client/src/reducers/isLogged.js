@@ -4,7 +4,7 @@ const loggedReducer = (state, action) => {
             return {auth: action.payload};
         //Default is for Log out
         default:
-            return {auth: false};
+            return {...state};
     }
 };
 
