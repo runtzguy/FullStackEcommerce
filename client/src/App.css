@@ -133,9 +133,10 @@ form input {
   padding: 5px;
   text-align: center;
   margin: 5px auto;
+  min-width: 250px;
   width: 30%;
 }
-.success {
+.success, .cart-success {
   background-color: rgb(187, 231, 187);
   color: green;
   border: 1px solid green;
@@ -143,8 +144,9 @@ form input {
   padding: 5px;
   text-align: center;
   margin: 5px auto;
-  width: 30%;
+  width: 300px;
 }
+
 
 /*************************************************** Tabs in Forms Page */
 .tab-container{

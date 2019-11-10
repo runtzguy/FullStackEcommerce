@@ -12,6 +12,7 @@ import Landing from './components/Landing'
 import LoginSignup from './components/LoginSignup'
 import Navbar from './components/Navbar'
 import Products from './components/Products'
+import Account from './components/Account'
 //Actions
 import {clearErrors} from './actions/index'
 
@@ -24,6 +25,7 @@ function App() {
           <Switch>
             <Route path="/components/Landing" component={Landing}/>
             <Route path="/components/LoginSignup" component={LoginSignup}/>
+            <Route path="/components/Account" component={Account}/>
             {/* Must be placed at the end because it Route executes sequentially */}
             <Route path="/components/Products" component={Products}/>
             <Route path="/" component={Landing}/>

@@ -66,7 +66,7 @@ const db = mysql.createConnection({
 
 db.connect((err)=>{
     if(err) throw err;
-    console.log("Database Connection Successful")
+    console.log("User Server Database Connection Successful")
 })
 
 /***           SIGNUP   */

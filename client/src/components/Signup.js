@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import {bindActionCreators} from 'redux'
-import {useSelector, useDispatch, connect} from 'react-redux';
+import {connect} from 'react-redux';
 //Actions
 import {isLoggedIn, loggedFirstName, loggedLastName, showErrors, clearErrors, successErrors} from '../actions/index'
 

@@ -30,15 +30,14 @@ app.set('view engine', 'pug')
 
 //Routes
 const userRouter = require('./api/routes/user');
+const checkoutRouter = require('./api/routes/checkout');
+const transHistRouter = require('./api/routes/userTransHist');
 
 app.use('/user', userRouter)
-
+app.use('/checkout', checkoutRouter)
+app.use('/userTransHist', transHistRouter)
 
 console.log("ON APP *******") 
-app.get('/', (req,res) =>{
-})
-
-
 
 //Handles request errors
 app.use((req,res,next) => {

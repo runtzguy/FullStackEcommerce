@@ -4,7 +4,12 @@ export const isLoggedIn = (status) => {
         payload: status
     }
 }
-
+export const isLoggedOut = (status) => {
+    return {
+        type: 'LOGGED_OUT',
+        payload: status
+    }
+}
 export const loggedFirstName= (fname) => {
     return {
         type: 'FIRST_NAME',
@@ -16,6 +21,12 @@ export const loggedLastName = (lname) =>{
     return {
         type: 'LAST_NAME',
         payload: lname
+    }
+}
+
+export const removeUserFromRedux = () =>{
+    return {
+        type: 'REMOVE_USER_FROM_REDUX',
     }
 }
 

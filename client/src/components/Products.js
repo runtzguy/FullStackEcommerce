@@ -8,6 +8,7 @@ import {isLoggedIn, loggedUsername, showErrors, clearErrors} from '../actions/in
 import ShoeTile from './ShoeTile';
 import Cart from './Cart';
 import Modal from './Modal';
+import { TSExternalModuleReference } from 'babel-types';
 
 //Styling
 const productsStyle = {
@@ -22,10 +23,12 @@ class Products extends Component {
         this.state = {
             userLoggedIn : "",
             shoes : [
-                {name : "Nike Men Air", imgURL: 'item1.jpg', description: "Cool sneakers", quantity: 0, selected : false,price: "49.99"},
-                {name : "Generic Running Shoe", imgURL: 'item2.jpg', description: "You wont regret it", quantity: 0, selected : false, price: "50.00"},
-                {name : "Nike Fly High", imgURL: 'item3.jpg', description: "Buy me!", quantity: 0, selected : false, price: "60.99"},
-                {name : "Adidas Pink Sneakers", imgURL: 'item4.jpg', description: "So Cheap!", quantity: 0, selected : false, price: "20.20"},
+                {id: 1,name : "Nike Men Air", imgURL: 'item1.jpg', description: "Cool sneakers", quantity: 0, selected : false,price: "49.99"},
+                {id: 2,name : "Generic Running Shoe", imgURL: 'item2.jpg', description: "You wont regret it", quantity: 0, selected : false, price: "50.00"},
+                {id: 3,name : "Nike Fly High", imgURL: 'item3.jpg', description: "Buy me!", quantity: 0, selected : false, price: "60.99"},
+                {id: 4,name : "Adidas Pink Sneakers", imgURL: 'item4.jpg', description: "So Cheap!", quantity: 0, selected : false, price: "20.20"},
+                {id: 5,name : "High Fashion Heels", imgURL: 'item5.jpg', description: "Walk with Class", quantity: 0, selected : false, price: "300.00"},
+                {id: 6,name : "Baby Shoes", imgURL: 'item6.jpg', description: "So Cute!", quantity: 0, selected : false, price: "15.99"},
             ]
         }
         this.inputChange = this.inputChange.bind(this);
@@ -55,6 +58,9 @@ class Products extends Component {
             let temp = Object.assign({}, e)
             if(temp.name === name){
                 temp.selected = !selected;
+                if(temp.quantity == 0) {
+                    temp.quantity = 1;
+                }
             }
             return temp;
         })

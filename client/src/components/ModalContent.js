@@ -5,11 +5,21 @@ import FocusTrap from 'focus-trap-react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 //Styling
 import '../css/modal.css';
+//
+import {isLoggedIn, showErrors, clearErrors} from '../actions/index';
+//
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux';
 //Components
 import ItemModal from './ItemModal';
 import Checkout from './Checkout';
+import Alerts from './Alerts';
 
 export class ModalContent extends Component {
+  constructor(){
+    super();
+    // this.checkoutItems = this.checkoutItems.bind(this);
+  }
   render() {
     let shoes = this.props.shoes;
     return ReactDOM.createPortal(
@@ -35,6 +45,7 @@ export class ModalContent extends Component {
               />
             </button>
             <div className="modal-body">
+              <Alerts/>
               <table>
                 <thead>
                   <tr>
@@ -60,7 +71,10 @@ export class ModalContent extends Component {
                   )}
                 </tbody>
               </table>
-              <Checkout></Checkout>
+              <Checkout
+                // checkoutItems={this.checkoutItems}
+                selectedShoes={shoes}
+              />
             </div>
 
           </div>
@@ -70,4 +84,22 @@ export class ModalContent extends Component {
     );
   }
 }
-export default ModalContent;
+function isEmpty(obj) {
+  for(var key in obj) {
+      if(obj.hasOwnProperty(key))
+          return false;
+  }
+  return true;
+}
+function mapStateToProps(state){
+  return {
+      loggedUserName : state.loggedUserName,
+      errorAlerts : state.errorAlerts,
+      loggedIn : state.isLogged, 
+  }
+}
+
+function matchDispatchToProps(dispatch){
+  return bindActionCreators({isLoggedIn, showErrors, clearErrors}, dispatch)
+}
+export default connect(mapStateToProps, matchDispatchToProps)(ModalContent);

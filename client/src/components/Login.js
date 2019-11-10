@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {useSelector, useDispatch, connect} from 'react-redux';
+import {connect} from 'react-redux';
 import '../App.css';
-import {bindActionCreators} from 'redux'
+import {bindActionCreators} from 'redux';
 //Actions
 import {isLoggedIn, loggedFirstName, loggedLastName, showErrors, clearErrors, successErrors} from '../actions/index'
 
@@ -11,7 +11,7 @@ class Login extends Component {
         super();
         this.state = {
             email : "",
-            pw : ""
+            pw : "",
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -41,8 +41,7 @@ class Login extends Component {
                 let resStatus = response.status;
                 if(resStatus == 200){
                     //Login Successful
-                    response.json()
-                    .then( e => {
+                    response.json().then( e => {
                         let fName = e.fName;
                         let lName = e.lName;
                         let isLoggedIn = e.isLoggedIn;
@@ -55,8 +54,7 @@ class Login extends Component {
                         this.props.loggedLastName(lName);
                         this.props.isLoggedIn(isLoggedIn);
                         this.props.successErrors(msg);
-
-                        resolve();
+                        
                     })
                     
                 } else if (resStatus == 307){

@@ -3,8 +3,7 @@ import '../App.css';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux';
 //Actions
-import {showErrors} from '../actions/index'
-import {successErrors} from '../actions/index'
+import {showErrors, successErrors} from '../actions/index';
 
 // Renders Alerts
 class Alerts extends Component {
@@ -17,7 +16,7 @@ class Alerts extends Component {
        // TODO: Implement action and reducer in Redux
        if((this.props.errorAlerts.success)){
             let succArr = this.props.errorAlerts.success;
-            return(  succArr.map(succ => { return <div className="success">{succ}</div>  }))
+            return(  succArr.map(succ => { return <div className="cart-success">{succ}</div>  }))
         }
        return (<span></span>)
     }
