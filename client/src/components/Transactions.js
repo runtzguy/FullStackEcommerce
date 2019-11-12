@@ -32,6 +32,9 @@ class Transactions extends Component {
 
         dataPromise.then(data=>{
             if(data.length != 0){
+                data.map(x=>{
+                    x.OR_DATE = x.OR_DATE.substring(0,10);
+                })
                 this.setState({tData : [...data]});
             } 
         })
@@ -49,16 +52,12 @@ class Transactions extends Component {
         if(this.state.tData.length == 0){
             return (<h3>You have no transaction history</h3>);
         } else {
-        return (
-        <ReactDataGrid
-            columns = {columns}
-            rowGetter={i => this.state.tData[i]}
-            rowsCount={10}
-        />
-
-       
-        )
-
+            return (
+            <ReactDataGrid
+                columns = {columns}
+                rowGetter={i => this.state.tData[i]}
+                rowsCount={10}
+            />)
         }
     }
 }

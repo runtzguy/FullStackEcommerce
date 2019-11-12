@@ -21,10 +21,15 @@ class Checkout extends Component{
         }
     }
     clickCheckout(){
+        if(this.props.errorAlerts){
+            this.props.clearErrors();
+        }
+
         if( this.props.selectedShoes.length == 0 ){
             this.props.showErrors('No items in Shopping Cart')
             return;
-        } 
+        }
+         
         if(isEmpty(this.props.loggedIn) || this.props.loggedIn.auth == false){
             this.props.showErrors('Only registered users can check out items. Please Register or Login');
             return;
