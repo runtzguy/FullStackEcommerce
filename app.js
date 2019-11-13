@@ -46,19 +46,11 @@ app.use((req,res,next) => {
     next(error);
 })
 
-app.use((error, req, res) => {
-    res.status(error.status || 500);
-    res.json({
-        error: {
-            message: error.message
-        }
-    });
+app.use('/', (error, req, res) => {
+    res.send('Non existent path');
 })
 
 app.listen(PORT, ()=> {
     console.log( `APP: Server running on ${PORT}`);
 })
-function isAuthenticated(req, res, next){
-    console.log(req.body);
-}
 module.exports = app;
