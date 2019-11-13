@@ -3,7 +3,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const PORT = process.env.PORT || 5000;
-const path = require('path');
 
 
 
@@ -24,8 +23,8 @@ app.use(morgan('short'));
 app.use(express.static('./public')); 
 
 //Load View Engine
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'pug')
+// app.set('views', path.join(__dirname, 'views'))
+// app.set('view engine', 'pug')
 
 
 //Routes
