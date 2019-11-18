@@ -38,7 +38,7 @@ app.use('/userTransHist', transHistRouter)
 
 console.log("ON APP *******") 
 
-app.use("/", (req,res) => {
+app.use("/", res => {
     console.log("Responding to root route");
     res.send("Welcome to Victor Liu's Full Stack Ecommerce API");
 })
