@@ -40,7 +40,6 @@ console.log("ON APP *******")
 
 app.use("/", res => {
     console.log("Responding to root route");
-    res.send("Welcome to Victor Liu's Full Stack Ecommerce API");
 })
 
 app.listen(PORT, ()=> {
