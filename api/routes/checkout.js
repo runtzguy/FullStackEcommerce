@@ -84,7 +84,6 @@ app.post('/', upload.none(), (req,res) => {
 })
 
 function createOrder(res, userID, data){
-    let orderID;
     try{
         db.query(`INSERT INTO Orders ( CUS_ID, OR_Date) VALUES ( '${userID}', '${getDate()}')`, 
             (err, result) => {

@@ -11,9 +11,6 @@ const jwt = require("jsonwebtoken");
 const cookieSession = require('cookie-session');
 const flash = require("connect-flash");
 
-//Import User Model
-var userModel = require("../../models/Users");
-
 /* Module for handling multipart bodies. IE: multipart/form-data (important)
 
         Multer adds a body object and a file or files object to the request object. 
