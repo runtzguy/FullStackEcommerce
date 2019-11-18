@@ -38,11 +38,9 @@ app.use('/userTransHist', transHistRouter)
 
 console.log("ON APP *******") 
 
-//Handles request errors
-app.use((req,res,next) => {
-    const error = new Error('Not Found, Go somewhere else');
-    error.status = 404;
-    next(error);
+app.use("/", (req,res) => {
+    console.log("Responding to root route");
+    res.send("Welcome to Victor Liu's Full Stack Ecommerce API");
 })
 
 app.listen(PORT, ()=> {
