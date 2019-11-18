@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 // app.use(expressSession({secret: "cat", saveUninitialized: false, resave: false}));
 app.use(morgan('short'));
-app.use(express.static('./public')); 
+// app.use(express.static('./public')); 
 
 //Load View Engine
 // app.set('views', path.join(__dirname, 'views'))
