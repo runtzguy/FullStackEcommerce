@@ -28,9 +28,9 @@ app.use(morgan('short'));
 
 
 //Routes
-const userRouter = require('./api/routes/user');
-const checkoutRouter = require('./api/routes/checkout');
-const transHistRouter = require('./api/routes/userTransHist');
+const userRouter = require('/api/routes/user');
+const checkoutRouter = require('/api/routes/checkout');
+const transHistRouter = require('/api/routes/userTransHist');
 
 app.use('/user', userRouter)
 app.use('/checkout', checkoutRouter)
