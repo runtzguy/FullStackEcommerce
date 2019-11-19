@@ -70,7 +70,10 @@ app.post('/', upload.none(), (req,res) => {
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('Access-Control-Allow-Credentials', false);
             res.json(d);
-        }).catch( err => console.err(err));
+        }).catch( err => {
+            console.error(err);
+            console.error("Unable to get transaction history");
+        });
     
         
         
