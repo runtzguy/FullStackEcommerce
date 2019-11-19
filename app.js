@@ -44,7 +44,6 @@ app.use((res, next) => {
     res.setHeader('Access-Control-Allow-Credentials', false);
 
     // Pass to next layer of middleware
-    next(res);
 });
 
 app.use('/user', userRouter)
