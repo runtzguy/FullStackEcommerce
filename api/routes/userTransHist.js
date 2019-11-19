@@ -55,6 +55,8 @@ app.post('/', upload.none(), (req,res) => {
     const token = req.headers.authorization;
     jwt.verify(token, 'verysecretkey', (err, coded)=>{
         if(err){
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Credentials', false);
             res.status(401).json({msg: "Please re-login/login"})
             console.log("Invalid Token: " + err);
             return;
@@ -65,6 +67,8 @@ app.post('/', upload.none(), (req,res) => {
         let transaction = getTransactionHistory(userID);
         
         transaction.then(d => {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Credentials', false);
             res.json(d);
         }).catch( err => console.err(err));
     

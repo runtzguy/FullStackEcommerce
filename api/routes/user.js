@@ -100,6 +100,9 @@ app.post('/signUp', upload.none(), [
         //Unique email
         if (!errors.isEmpty()) {
             console.log("SIGNUP ERRORS (unique email): " + JSON.stringify(errors));
+
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Credentials', false);
             res.json(errors);
             return
         } 
@@ -114,6 +117,9 @@ app.post('/signUp', upload.none(), [
                     (err)=> {
                         if(err) throw err;
                         console.log(`Sucessfully inserted Customer ${fname} ${lname}`);
+
+                        res.setHeader('Access-Control-Allow-Origin', '*');
+                        res.setHeader('Access-Control-Allow-Credentials', false);
                         res.status(200).json({msg:'Successful Signup'});
                 });
             })
@@ -125,6 +131,9 @@ app.post('/signUp', upload.none(), [
         })
         if (!errors.isEmpty()) {
             console.log("ERRORS (not unique email): " + JSON.stringify(errors));
+            
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Credentials', false);
             res.json(errors);
         } 
     })
@@ -153,6 +162,7 @@ app.post('/login', upload.none(), [
         const userData = {...d}
         //JWT returns a promise so response must be put inside.
         let token = jwt.sign({userData}, 'verysecretkey', {expiresIn : '1h'});
+
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Credentials', false);
         res.status(200).json({
@@ -170,6 +180,9 @@ app.post('/login', upload.none(), [
         let errors = validationResult(req).formatWith(errorFormatter2);
         errors.errors.push(err);
         console.log("LOGIN ERRORS: " + JSON.stringify(errors));
+
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Credentials', false);
         res.status(401);
         res.json(errors);
         // res.redirect().json(errors.array());
@@ -227,17 +240,5 @@ function uniqueEmail(email, db){
             }
         })
     })
-}
-function verifyToken(req, res, next) {
-    //Get auth header value
-    const bearerHeader = req.headers['authorization'];
-    //Check if bearer is undefined
-    if(typeof bearerHeader !== 'undefined'){
-
-    }else {
-        //Forbidden
-        res.sendStatus(403);
-    }
-    next();
 }
 module.exports = app;
