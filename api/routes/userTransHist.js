@@ -44,7 +44,7 @@ const db = mysql.createConnection({
 });
 
 db.connect((err)=>{
-    if(err) throw err;
+    if(err) console.error(err);
     console.log("Transaction History Server Connection to Database Successful")
 })
 // TODO: 1) Get transaction data for user
@@ -58,7 +58,7 @@ app.post('/', upload.none(), (req,res) => {
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('Access-Control-Allow-Credentials', false);
             res.status(401).json({msg: "Please re-login/login"})
-            console.log("Invalid Token: " + err);
+            console.error("Invalid Token: " + err);
             return;
         };
         //Valid Token 

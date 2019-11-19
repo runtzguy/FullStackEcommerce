@@ -62,7 +62,7 @@ const db = mysql.createConnection({
 });
 
 db.connect((err)=>{
-    if(err) throw err;
+    if(err) console.error(err);
     console.log("User Server Database Connection Successful")
 })
 
@@ -111,7 +111,7 @@ app.post('/signUp', upload.none(), [
                 let {fname, lname, email} = req.body;
                 let id = uuid();
                 // Store hash in your password DB.
-                if(err) throw err;
+                if(err) console.log(err);
                 db.query(`INSERT INTO Customer (CUS_ID, CUS_FName, CUS_LName, CUS_Email, CUS_PW) 
                         VALUES ('${id}', '${fname}', '${lname}', '${email}', '${hash}')`, 
                     (err)=> {
@@ -200,7 +200,7 @@ function checkCred(email, pw, db){
     return new Promise( (resolve, reject) => {
         db.query(`SELECT * FROM Customer WHERE CUS_Email='${email}'`, (err, result)=>{
             let data;
-            if(err) throw err;
+            if(err) console.error(err);
             //Changes [object Object] into a readable string
             result = JSON.stringify(result);
             //Changes the string into JSON object
@@ -228,7 +228,7 @@ function uniqueEmail(email, db){
     return new Promise( (resolve, reject) => {
         db.query(`SELECT * FROM Customer WHERE CUS_Email='${email}'`, (err, result)=>{
             let data;
-            if(err) throw err;
+            if(err) console.error(err);
 
             result = JSON.stringify(result);
             data = JSON.parse(result);
