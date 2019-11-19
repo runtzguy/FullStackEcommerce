@@ -152,7 +152,9 @@ app.post('/login', upload.none(), [
         d = JSON.parse(JSON.stringify(d));
         const userData = {...d}
         //JWT returns a promise so response must be put inside.
-        let token = jwt.sign({userData}, 'verysecretkey', {expiresIn : '1h'})
+        let token = jwt.sign({userData}, 'verysecretkey', {expiresIn : '1h'});
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Credentials', false);
         res.status(200).json({
             fName : userData['fName'],
             lName : userData['lName'],

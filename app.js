@@ -32,20 +32,20 @@ const userRouter = require('./api/routes/user');
 const checkoutRouter = require('./api/routes/checkout');
 const transHistRouter = require('./api/routes/userTransHist');
 
-app.use((res, next) => {
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
+// app.use((res, next) => {
+//     // Website you wish to allow to connect
+//     res.setHeader('Access-Control-Allow-Origin', '*');
 
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'POST');
+//     // Request methods you wish to allow
+//     res.setHeader('Access-Control-Allow-Methods', 'POST');
     
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', false);
+//     // Set to true if you need the website to include cookies in the requests sent
+//     // to the API (e.g. in case you use sessions)
+//     res.setHeader('Access-Control-Allow-Credentials', false);
 
-    // Pass to next layer of middleware
-    next();
-});
+//     // Pass to next layer of middleware
+//     next();
+// });
 
 app.use('/user', userRouter)
 app.use('/checkout', checkoutRouter)
