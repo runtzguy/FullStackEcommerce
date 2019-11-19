@@ -32,6 +32,15 @@ const userRouter = require('./api/routes/user');
 const checkoutRouter = require('./api/routes/checkout');
 const transHistRouter = require('./api/routes/userTransHist');
 
+app.use((res, next) => {
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
+
 app.use('/user', userRouter)
 app.use('/checkout', checkoutRouter)
 app.use('/userTransHist', transHistRouter)

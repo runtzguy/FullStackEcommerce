@@ -30,7 +30,7 @@ class Login extends Component {
         if(this.props.errorAlerts){
             this.props.clearErrors();
         }
-        fetch('/user/login', {
+        fetch('https://full-stack-ecommerce.herokuapp.com/user/login', {
             method : 'post',
             body : data,
             headers : {

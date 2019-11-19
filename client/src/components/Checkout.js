@@ -41,7 +41,7 @@ class Checkout extends Component{
             // addedTokenData.push(token);
             let data = JSON.stringify(this.props.selectedShoes);
             console.log("Logged in")
-            fetch('/checkout', {
+            fetch('https://full-stack-ecommerce.herokuapp.com/checkout', {
                 method : 'post',
                 body : data,
                 headers : {
