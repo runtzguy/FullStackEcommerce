@@ -97,6 +97,7 @@ app.post('/', upload.none(), (req,res) => {
         transaction.then(d => {
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('Access-Control-Allow-Credentials', false);
+            console.log(d);
             res.json(d);
             db.end();
         }).catch( err => {

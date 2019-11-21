@@ -27,7 +27,11 @@ class Transactions extends Component {
             }
         }).then(response => {
             return new Promise( (resolve, reject) => {
-                resolve(response.json());
+                if(response.json()){
+                    resolve(response.json());
+                } else {
+                    reject("Error with getting transaction data");
+                }
             }) 
         })
 
@@ -38,6 +42,8 @@ class Transactions extends Component {
                 })
                 this.setState({tData : [...data]});
             } 
+        }).catch(err => {
+            console.error(err);
         })
     }
 
