@@ -79,6 +79,7 @@ const db_config = {
 
 console.log("HERE AT TRANS");
 app.post('/', upload.none(), (req,res) => {
+    console.log("INSIDE AT TRANS");
     //Assigned array object request to data variable
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Request-Method', 'POST, OPTIONS');
