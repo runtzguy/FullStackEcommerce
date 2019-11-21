@@ -24,6 +24,7 @@ class Transactions extends Component {
                 'Content-Type' : 'application/json',
                 'Accept' : 'application/json',
                 'Authorization' : sessionStorage.getItem('token'),
+                
             }
         }).then(response => {
             return new Promise( (resolve, reject) => {

@@ -80,6 +80,7 @@ app.post('/', upload.none(), (req,res) => {
     //Assigned array object request to data variable
     const token = req.headers.authorization;
     const db = mysql.createConnection(db_config);
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
     jwt.verify(token, 'verysecretkey', (err, coded)=>{
         if(err){
