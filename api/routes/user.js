@@ -62,30 +62,30 @@ const db_config = {
 
 
 //Database credentials
-let db;
-function handleDisconnect() {
-  db = mysql.createConnection(db_config); // Recreate the connection, since
-                                                  // the old one cannot be reused.
+// let db;
+// function handleDisconnect() {
+//   db = mysql.createConnection(db_config); // Recreate the connection, since
+//                                                   // the old one cannot be reused.
 
-  db.connect(function(err) {              // The server is either down
-    if(err) {                                     // or restarting (takes a while sometimes).
-      console.log('error when connecting to db:', err);
-      setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
-    }
-    console.log("User Server Database Connection Successful")                                     // to avoid a hot loop, and to allow our node script to
-  });                                     // process asynchronous requests in the meantime.
-                                          // If you're also serving http, display a 503 error.
-  db.on('error', function(err) {
-    console.log('db error', err);
-    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-      handleDisconnect();                         // lost due to either server restart, or a
-    } else {                                      // connnection idle timeout (the wait_timeout
-      throw err;                                  // server variable configures this)
-    }
-  });
-}
+//   db.connect(function(err) {              // The server is either down
+//     if(err) {                                     // or restarting (takes a while sometimes).
+//       console.log('error when connecting to db:', err);
+//       setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+//     }
+//     console.log("User Server Database Connection Successful")                                     // to avoid a hot loop, and to allow our node script to
+//   });                                     // process asynchronous requests in the meantime.
+//                                           // If you're also serving http, display a 503 error.
+//   db.on('error', function(err) {
+//     console.log('db error', err);
+//     if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+//       handleDisconnect();                         // lost due to either server restart, or a
+//     } else {                                      // connnection idle timeout (the wait_timeout
+//       throw err;                                  // server variable configures this)
+//     }
+//   });
+// }
 
-handleDisconnect();
+// handleDisconnect();
 
 // db.connect((err)=>{
 //     if(err) console.error(err);
@@ -138,11 +138,14 @@ app.post('/signUp', upload.none(), [
                 let id = uuid();
                 // Store hash in your password DB.
                 if(err) console.log(err);
+                let db = mysql.createConnection(db_config);
                 db.query(`INSERT INTO Customer (CUS_ID, CUS_FName, CUS_LName, CUS_Email, CUS_PW) 
                         VALUES ('${id}', '${fname}', '${lname}', '${email}', '${hash}')`, 
                     (err)=> {
                         if(err) throw err;
                         console.log(`Sucessfully inserted Customer ${fname} ${lname}`);
+
+                        db.end();
 
                         res.setHeader('Access-Control-Allow-Origin', '*');
                         res.setHeader('Access-Control-Allow-Credentials', false);
@@ -224,6 +227,7 @@ app.post('/login', upload.none(), [
 })
 function checkCred(email, pw, db){
     return new Promise( (resolve, reject) => {
+        let db = mysql.createConnection(db_config);
         db.query(`SELECT * FROM Customer WHERE CUS_Email='${email}'`, (err, result)=>{
             let data;
             if(err) console.error(err);
@@ -243,8 +247,10 @@ function checkCred(email, pw, db){
                         email : data[0]['CUS_Email']
                     })
                 }
+                db.end();
                 reject({msg :"Invalid Password"});
             } else {
+                db.end();
                 reject({ msg : "No Email Found"});
             }
         })
@@ -252,6 +258,7 @@ function checkCred(email, pw, db){
 }
 function uniqueEmail(email, db){
     return new Promise( (resolve, reject) => {
+        let db = mysql.createConnection(db_config);
         db.query(`SELECT * FROM Customer WHERE CUS_Email='${email}'`, (err, result)=>{
             let data;
             if(err) console.error(err);
@@ -260,8 +267,10 @@ function uniqueEmail(email, db){
             data = JSON.parse(result);
 
             if(data.length > 0){
+                db.end();
                 reject({ msg: "Not Unique Email"})
             } else {
+                db.end();
                 resolve({msg: "Unique Email"})
             }
         })

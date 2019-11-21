@@ -47,19 +47,29 @@ process.env.SECRET_KEY = "secret";
 //   next();
 // });
 
-//Database credentials
-const db = mysql.createConnection({
+
+//Database Configs
+const db_config = {
     host: 'us-cdbr-iron-east-05.cleardb.net',
     user: 'bb3445d217854a',
     password: '11e0df20',
     database: 'heroku_3f1750c9c0f5c78',
-    port: '3306'
-});
+    //port : '3306',
+}
 
-db.connect((err)=>{
-    if(err) throw err;
-    console.log("Checkout Server Connection to Database Successful")
-})
+//Database credentials
+// const db = mysql.createConnection({
+//     host: 'us-cdbr-iron-east-05.cleardb.net',
+//     user: 'bb3445d217854a',
+//     password: '11e0df20',
+//     database: 'heroku_3f1750c9c0f5c78',
+//     port: '3306'
+// });
+
+// db.connect((err)=>{
+//     if(err) throw err;
+//     console.log("Checkout Server Connection to Database Successful")
+// })
 app.post('/', upload.none(), (req,res) => {
     //Assigned array object request to data variable
     const checkoutItems = req.body;
@@ -80,6 +90,7 @@ app.post('/', upload.none(), (req,res) => {
 
 function createOrder(res, userID, data){
     try{
+        let db = mysql.createConnection(db_config);
         db.query(`INSERT INTO Orders ( CUS_ID, OR_Date) VALUES ( '${userID}', '${getDate()}')`, 
             (err, result) => {
                 if(err) throw err;
@@ -98,6 +109,7 @@ function createOrder(res, userID, data){
                     }
                 })
         })
+        db.end();
     }  catch(err){
         console.error(err);
     }

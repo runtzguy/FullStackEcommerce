@@ -44,30 +44,30 @@ const db_config = {
 }
 
 //Database credentials
-let db;
-function handleDisconnect() {
-  db = mysql.createConnection(db_config); // Recreate the connection, since
-                                                  // the old one cannot be reused.
+// let db;
+// function handleDisconnect() {
+//   db = mysql.createConnection(db_config); // Recreate the connection, since
+//                                                   // the old one cannot be reused.
 
-  db.connect(function(err) {              // The server is either down
-    if(err) {                                     // or restarting (takes a while sometimes).
-      console.log('error when connecting to db:', err);
-      setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
-    }
-    console.log("Transaction History Server Connection to Database Successful")                                    
-  });                                     // process asynchronous requests in the meantime.
-                                          // If you're also serving http, display a 503 error.
-  db.on('error', function(err) {
-    console.log('db error', err);
-    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-      handleDisconnect();                         // lost due to either server restart, or a
-    } else {                                      // connnection idle timeout (the wait_timeout
-      throw err;                                  // server variable configures this)
-    }
-  });
-}
+//   db.connect(function(err) {              // The server is either down
+//     if(err) {                                     // or restarting (takes a while sometimes).
+//       console.log('error when connecting to db:', err);
+//       setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+//     }
+//     console.log("Transaction History Server Connection to Database Successful")                                    
+//   });                                     // process asynchronous requests in the meantime.
+//                                           // If you're also serving http, display a 503 error.
+//   db.on('error', function(err) {
+//     console.log('db error', err);
+//     if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+//       handleDisconnect();                         // lost due to either server restart, or a
+//     } else {                                      // connnection idle timeout (the wait_timeout
+//       throw err;                                  // server variable configures this)
+//     }
+//   });
+// }
 
-handleDisconnect();
+// handleDisconnect();
 
 // db.connect((err)=>{
 //     if(err) console.error(err);
@@ -110,6 +110,7 @@ app.post('/', upload.none(), (req,res) => {
 function getTransactionHistory(userID){
     //TODO: Combine tables( Order & Order_Items & Products) and send it back to user;
     return new Promise((resolve, reject) => {
+        db = mysql.createConnection(db_config);
         db.query(`SELECT Orders.OR_ID, Orders.OR_DATE, Order_Items.PROD_ID, Order_Items.OI_Quantity, 
         Products.PROD_Name, Products.PROD_PRICE
         FROM Orders 
