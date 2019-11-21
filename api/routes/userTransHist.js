@@ -82,7 +82,8 @@ app.post('/', upload.none(), (req,res) => {
     const db = mysql.createConnection(db_config);
     console.log("Database connected for transaction");
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Request-Method', 'POST');
+    res.setHeader('Access-Control-Request-Method', 'POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Authorization');
     res.setHeader('Access-Control-Allow-Credentials', false);
 
     jwt.verify(token, 'verysecretkey', (err, coded)=>{
