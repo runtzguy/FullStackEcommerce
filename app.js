@@ -54,9 +54,10 @@ const transHistRouter = require('./api/routes/userTransHist');
 //     res.setHeader('Access-Control-Allow-Credentials', false);
 //     next();
 // })
+app.use('/userTransHist', transHistRouter)
 app.use('/user', userRouter)
 app.use('/checkout', checkoutRouter)
-app.use('/userTransHist', transHistRouter)
+
 
 console.log("ON APP *******") 
 
