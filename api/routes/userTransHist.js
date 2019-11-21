@@ -89,6 +89,10 @@ app.post('/', upload.none(), (req,res) => {
 
     jwt.verify(token, 'verysecretkey', (err, coded)=>{
         if(err){
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Request-Method', 'POST, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Authorization, Accept');
+            res.setHeader('Access-Control-Allow-Credentials', false);
             res.status(401).json({msg: "Please re-login/login"})
             console.error("Invalid Token: " + err);
             return;
@@ -100,6 +104,10 @@ app.post('/', upload.none(), (req,res) => {
         
         transaction.then(d => {
             console.log(d);
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Request-Method', 'POST, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Authorization, Accept');
+            res.setHeader('Access-Control-Allow-Credentials', false);
             res.json(d);
             db.end();
         }).catch( err => {
