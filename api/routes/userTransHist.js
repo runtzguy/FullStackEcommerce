@@ -81,6 +81,7 @@ app.post('/', upload.none(), (req,res) => {
     const token = req.headers.authorization;
     const db = mysql.createConnection(db_config);
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Credentials', false);
 
     jwt.verify(token, 'verysecretkey', (err, coded)=>{
         if(err){

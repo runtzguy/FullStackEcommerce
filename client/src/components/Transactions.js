@@ -21,10 +21,9 @@ class Transactions extends Component {
         let dataPromise = fetch('https://full-stack-ecommerce.herokuapp.com/userTransHist', {
             method : 'post',
             headers : {
-                'Content-Type' : 'application/json',
                 'Accept' : 'application/json',
                 'Authorization' : sessionStorage.getItem('token'),
-                
+
             }
         }).then(response => {
             return new Promise( (resolve, reject) => {
