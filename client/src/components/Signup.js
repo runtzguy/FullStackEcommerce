@@ -32,7 +32,7 @@ class Signup extends Component {
         //Outputs data from the formData in this pattern: key value
         let formData =  new FormData(e.target);
         
-        fetch('/user/signUp', {
+        fetch('https://full-stack-ecommerce.herokuapp.com/user/signUp', {
             method : 'post',
             body : formData,
             headers : {

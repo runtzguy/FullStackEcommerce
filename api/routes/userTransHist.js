@@ -118,11 +118,9 @@ function getTransactionHistory(userID){
         ON Order_Items.OR_ID=Orders.OR_ID AND Orders.CUS_ID = '${userID}'
         INNER JOIN Products ON Products.PROD_ID=Order_Items.PROD_ID;`, 
         (err, result) => {
-        
-        db.end();
-        
         if(err) reject(err);
         result = JSON.parse(JSON.stringify(result));
+        db.end();
         resolve(result);
         })  
     })
