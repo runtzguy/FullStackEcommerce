@@ -47,13 +47,15 @@ const transHistRouter = require('./api/routes/userTransHist');
 //     next();
 // });
 
-// app.use((res,next)=>{
-//     res.setHeader('Access-Control-Allow-Origin', '*');
-//     res.setHeader('Access-Control-Request-Method', 'POST, OPTIONS');
-//     res.setHeader('Access-Control-Allow-Headers', 'Authorization');
-//     res.setHeader('Access-Control-Allow-Credentials', false);
-//     next();
-// })
+app.use((req,res,next)=>{
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization');
+    if(req.method === 'OPTIONS'){
+        res.header('Access-Control-Request-Method', 'POST');
+        return res.status(200).json({});
+    }
+    next();
+})
 app.use('/userTransHist', transHistRouter)
 app.use('/user', userRouter)
 app.use('/checkout', checkoutRouter)

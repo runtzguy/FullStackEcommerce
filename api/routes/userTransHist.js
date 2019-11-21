@@ -81,11 +81,10 @@ console.log("HERE AT TRANS");
 app.post('/', upload.none(), (req,res) => {
     console.log("INSIDE AT TRANS");
     //Assigned array object request to data variable
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Request-Method', 'POST, OPTIONS');
-    res.setHeader("Content-Type", "application/json");
-    res.header('Access-Control-Allow-Headers', 'Authorization, Accept');
-    res.header('Access-Control-Allow-Credentials', false);
+    // res.header('Access-Control-Allow-Origin', '*');
+    // res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    // res.header('Access-Control-Allow-Headers', 'Authorization, Accept');
+    // res.header('Access-Control-Allow-Credentials', false);
     const token = req.headers.authorization;
     const db = mysql.createConnection(db_config);
     console.log("Database connected for transaction");
@@ -93,10 +92,10 @@ app.post('/', upload.none(), (req,res) => {
 
     jwt.verify(token, 'verysecretkey', (err, coded)=>{
         if(err){
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Request-Method', 'POST, OPTIONS');
-            res.header('Access-Control-Allow-Headers', 'Authorization, Accept');
-            res.header('Access-Control-Allow-Credentials', false);
+            // res.header('Access-Control-Allow-Origin', '*');
+            // res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
+            // res.header('Access-Control-Allow-Headers', 'Authorization, Accept');
+            // res.header('Access-Control-Allow-Credentials', false);
             res.status(401).json({msg: "Please re-login/login"})
             console.error("Invalid Token: " + err);
             return;
@@ -108,10 +107,10 @@ app.post('/', upload.none(), (req,res) => {
         
         transaction.then(d => {
             console.log(d);
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Request-Method', 'POST, OPTIONS');
-            res.header('Access-Control-Allow-Headers', 'Authorization, Accept');
-            res.header('Access-Control-Allow-Credentials', false);
+            // res.header('Access-Control-Allow-Origin', '*');
+            // res.header('Access-Control-Request-Method', 'POST, OPTIONS');
+            // res.header('Access-Control-Allow-Headers', 'Authorization, Accept');
+            // res.header('Access-Control-Allow-Credentials', false);
             res.json(d);
             db.end();
         }).catch( err => {

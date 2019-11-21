@@ -128,8 +128,8 @@ app.post('/signUp', upload.none(), [
         if (!errors.isEmpty()) {
             console.log("SIGNUP ERRORS (unique email): " + JSON.stringify(errors));
 
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('Access-Control-Allow-Credentials', false);
+            // res.setHeader('Access-Control-Allow-Origin', '*');
+            // res.setHeader('Access-Control-Allow-Credentials', false);
             res.json(errors);
             return
         } 
@@ -147,8 +147,8 @@ app.post('/signUp', upload.none(), [
 
                         db.end();
 
-                        res.setHeader('Access-Control-Allow-Origin', '*');
-                        res.setHeader('Access-Control-Allow-Credentials', false);
+                        // res.setHeader('Access-Control-Allow-Origin', '*');
+                        // res.setHeader('Access-Control-Allow-Credentials', false);
                         res.status(200).json({msg:'Successful Signup'});
                 });
             })
@@ -161,8 +161,8 @@ app.post('/signUp', upload.none(), [
         if (!errors.isEmpty()) {
             console.log("ERRORS (not unique email): " + JSON.stringify(errors));
             
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('Access-Control-Allow-Credentials', false);
+            // res.setHeader('Access-Control-Allow-Origin', '*');
+            // res.setHeader('Access-Control-Allow-Credentials', false);
             res.json(errors);
         }
         
@@ -197,8 +197,8 @@ app.post('/login', upload.none(), [
         //JWT returns a promise so response must be put inside.
         let token = jwt.sign({userData}, 'verysecretkey', {expiresIn : '1h'});
 
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Credentials', false);
+        // res.setHeader('Access-Control-Allow-Origin', '*');
+        // res.setHeader('Access-Control-Allow-Credentials', false);
         res.status(200).json({
             fName : userData['fName'],
             lName : userData['lName'],
@@ -215,8 +215,8 @@ app.post('/login', upload.none(), [
         errors.errors.push(err);
         console.log("LOGIN ERRORS: " + JSON.stringify(errors));
 
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Credentials', false);
+        // res.setHeader('Access-Control-Allow-Origin', '*');
+        // res.setHeader('Access-Control-Allow-Credentials', false);
         res.status(401);
         res.json(errors);
 
