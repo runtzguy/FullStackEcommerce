@@ -83,6 +83,7 @@ app.post('/', upload.none(), (req,res) => {
     //Assigned array object request to data variable
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Request-Method', 'POST, OPTIONS');
+    res.setHeader("Content-Type", "application/json");
     res.header('Access-Control-Allow-Headers', 'Authorization, Accept');
     res.header('Access-Control-Allow-Credentials', false);
     const token = req.headers.authorization;
