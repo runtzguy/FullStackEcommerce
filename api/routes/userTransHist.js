@@ -82,13 +82,11 @@ app.post('/', upload.none(), (req,res) => {
     const db = mysql.createConnection(db_config);
     console.log("Database connected for transaction");
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Request-Method', 'POST');
     res.setHeader('Access-Control-Allow-Credentials', false);
 
     jwt.verify(token, 'verysecretkey', (err, coded)=>{
         if(err){
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('Access-Control-Allow-Credentials', false);
-            res.setHeader('Content-Type', 'application/json');
             res.status(401).json({msg: "Please re-login/login"})
             console.error("Invalid Token: " + err);
             return;
@@ -99,8 +97,6 @@ app.post('/', upload.none(), (req,res) => {
         let transaction = getTransactionHistory(userID);
         
         transaction.then(d => {
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('Access-Control-Allow-Credentials', false);
             console.log(d);
             res.json(d);
             db.end();
