@@ -77,7 +77,7 @@ const db_config = {
 //       2) Combine tables (Order & Order_Items) to respond back to user
 // 
 
-
+console.log("HERE AT TRANS");
 app.post('/', upload.none(), (req,res) => {
     //Assigned array object request to data variable
     res.header('Access-Control-Allow-Origin', '*');
