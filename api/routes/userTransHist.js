@@ -79,6 +79,8 @@ const db_config = {
 app.post('/', upload.none(), (req,res) => {
     //Assigned array object request to data variable
     const token = req.headers.authorization;
+    const db = mysql.createConnection(db_config);
+
     jwt.verify(token, 'verysecretkey', (err, coded)=>{
         if(err){
             res.setHeader('Access-Control-Allow-Origin', '*');
@@ -96,9 +98,11 @@ app.post('/', upload.none(), (req,res) => {
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('Access-Control-Allow-Credentials', false);
             res.json(d);
+            db.end();
         }).catch( err => {
             console.error(err);
             console.error("Unable to get transaction history");
+            db.end();
         });
     
         
@@ -110,7 +114,6 @@ app.post('/', upload.none(), (req,res) => {
 function getTransactionHistory(userID){
     //TODO: Combine tables( Order & Order_Items & Products) and send it back to user;
     return new Promise((resolve, reject) => {
-        let db = mysql.createConnection(db_config);
         db.query(`SELECT Orders.OR_ID, Orders.OR_DATE, Order_Items.PROD_ID, Order_Items.OI_Quantity, 
         Products.PROD_Name, Products.PROD_PRICE
         FROM Orders 
@@ -120,7 +123,6 @@ function getTransactionHistory(userID){
         (err, result) => {
         if(err) reject(err);
         result = JSON.parse(JSON.stringify(result));
-        db.end();
         resolve(result);
         })  
     })
