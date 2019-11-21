@@ -124,6 +124,7 @@ function getTransactionHistory(userID){
         (err, result) => {
         if(err) reject(err);
         result = JSON.parse(JSON.stringify(result));
+        console.log("INSIDE QUERY: " + result);
         resolve(result);
         })  
     })
