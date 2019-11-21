@@ -86,6 +86,7 @@ app.post('/', upload.none(), (req,res) => {
         if(err){
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('Access-Control-Allow-Credentials', false);
+            res.setHeader('Content-Type', 'application/json');
             res.status(401).json({msg: "Please re-login/login"})
             console.error("Invalid Token: " + err);
             return;
