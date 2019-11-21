@@ -77,13 +77,7 @@ const db_config = {
 //       2) Combine tables (Order & Order_Items) to respond back to user
 // 
 
-app.use((res,next)=>{
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Request-Method', 'POST, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Authorization, Accept');
-    res.header('Access-Control-Allow-Credentials', false);
-    next();
-})
+
 app.post('/', upload.none(), (req,res) => {
     //Assigned array object request to data variable
     res.header('Access-Control-Allow-Origin', '*');
