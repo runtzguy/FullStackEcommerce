@@ -47,6 +47,13 @@ const transHistRouter = require('./api/routes/userTransHist');
 //     next();
 // });
 
+app.use((res,next)=>{
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Request-Method', 'POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', false);
+    next();
+})
 app.use('/user', userRouter)
 app.use('/checkout', checkoutRouter)
 app.use('/userTransHist', transHistRouter)
