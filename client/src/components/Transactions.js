@@ -18,7 +18,7 @@ class Transactions extends Component {
     }
     componentDidMount(){
         //TODO: Fetch transaction data from server
-        let dataPromise = fetch('https://full-stack-ecommerce.herokuapp.com/userTransHist/', {
+        let dataPromise = fetch('https://full-stack-ecommerce.herokuapp.com/userTransHist', {
             method : 'post',
             headers : {
                 'Accept' : 'application/json',

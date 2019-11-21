@@ -75,7 +75,15 @@ const db_config = {
 // })
 // TODO: 1) Get transaction data for user
 //       2) Combine tables (Order & Order_Items) to respond back to user
-//       
+// 
+
+app.use((res,next)=>{
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Request-Method', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Authorization, Accept');
+    res.setHeader('Access-Control-Allow-Credentials', false);
+    next();
+})
 app.post('/', upload.none(), (req,res) => {
     //Assigned array object request to data variable
     res.setHeader('Access-Control-Allow-Origin', '*');
