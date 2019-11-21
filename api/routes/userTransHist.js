@@ -80,6 +80,7 @@ app.post('/', upload.none(), (req,res) => {
     //Assigned array object request to data variable
     const token = req.headers.authorization;
     const db = mysql.createConnection(db_config);
+    console.log("Database connected for transaction");
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Credentials', false);
 
