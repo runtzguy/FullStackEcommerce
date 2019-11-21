@@ -2,14 +2,9 @@ const express = require('express');
 const app = express.Router();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const uuid = require('uuid/v4');
 const mysql = require('mysql');
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
-const { check, validationResult, body, expressValidator } = require('express-validator');
 const jwt = require("jsonwebtoken");
 const cookieSession = require('cookie-session');
-const flash = require("connect-flash");
 
 /* Module for handling multipart bodies. IE: multipart/form-data (important)
 
