@@ -53,7 +53,8 @@ function handleDisconnect() {
     if(err) {                                     // or restarting (takes a while sometimes).
       console.log('error when connecting to db:', err);
       setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
-    }                                     // to avoid a hot loop, and to allow our node script to
+    }
+    console.log("Transaction History Server Connection to Database Successful")                                    
   });                                     // process asynchronous requests in the meantime.
                                           // If you're also serving http, display a 503 error.
   db.on('error', function(err) {
@@ -68,10 +69,10 @@ function handleDisconnect() {
 
 handleDisconnect();
 
-db.connect((err)=>{
-    if(err) console.error(err);
-    console.log("Transaction History Server Connection to Database Successful")
-})
+// db.connect((err)=>{
+//     if(err) console.error(err);
+//     console.log("Transaction History Server Connection to Database Successful")
+// })
 // TODO: 1) Get transaction data for user
 //       2) Combine tables (Order & Order_Items) to respond back to user
 //       
