@@ -78,18 +78,18 @@ const db_config = {
 // 
 
 app.use((res,next)=>{
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Request-Method', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Authorization, Accept');
-    res.setHeader('Access-Control-Allow-Credentials', false);
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Request-Method', 'POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Authorization, Accept');
+    res.header('Access-Control-Allow-Credentials', false);
     next();
 })
 app.post('/', upload.none(), (req,res) => {
     //Assigned array object request to data variable
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Request-Method', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Authorization, Accept');
-    res.setHeader('Access-Control-Allow-Credentials', false);
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Request-Method', 'POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Authorization, Accept');
+    res.header('Access-Control-Allow-Credentials', false);
     const token = req.headers.authorization;
     const db = mysql.createConnection(db_config);
     console.log("Database connected for transaction");
@@ -97,10 +97,10 @@ app.post('/', upload.none(), (req,res) => {
 
     jwt.verify(token, 'verysecretkey', (err, coded)=>{
         if(err){
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('Access-Control-Request-Method', 'POST, OPTIONS');
-            res.setHeader('Access-Control-Allow-Headers', 'Authorization, Accept');
-            res.setHeader('Access-Control-Allow-Credentials', false);
+            res.header('Access-Control-Allow-Origin', '*');
+            res.header('Access-Control-Request-Method', 'POST, OPTIONS');
+            res.header('Access-Control-Allow-Headers', 'Authorization, Accept');
+            res.header('Access-Control-Allow-Credentials', false);
             res.status(401).json({msg: "Please re-login/login"})
             console.error("Invalid Token: " + err);
             return;
@@ -112,10 +112,10 @@ app.post('/', upload.none(), (req,res) => {
         
         transaction.then(d => {
             console.log(d);
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('Access-Control-Request-Method', 'POST, OPTIONS');
-            res.setHeader('Access-Control-Allow-Headers', 'Authorization, Accept');
-            res.setHeader('Access-Control-Allow-Credentials', false);
+            res.header('Access-Control-Allow-Origin', '*');
+            res.header('Access-Control-Request-Method', 'POST, OPTIONS');
+            res.header('Access-Control-Allow-Headers', 'Authorization, Accept');
+            res.header('Access-Control-Allow-Credentials', false);
             res.json(d);
             db.end();
         }).catch( err => {
