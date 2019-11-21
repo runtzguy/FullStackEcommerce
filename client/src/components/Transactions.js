@@ -22,6 +22,7 @@ class Transactions extends Component {
             method : 'post',
             headers : {
                 'Content-Type' : 'application/json',
+                'Accept' : 'application/json',
                 'Authorization' : sessionStorage.getItem('token'),
             }
         }).then(response => {
