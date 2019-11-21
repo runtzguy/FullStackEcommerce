@@ -43,59 +43,12 @@ const db_config = {
     //port : '3306',
 }
 
-//Database credentials
-// let db;
-// function handleDisconnect() {
-//   db = mysql.createConnection(db_config); // Recreate the connection, since
-//                                                   // the old one cannot be reused.
+const db = mysql.createConnection(db_config);
 
-//   db.connect(function(err) {              // The server is either down
-//     if(err) {                                     // or restarting (takes a while sometimes).
-//       console.log('error when connecting to db:', err);
-//       setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
-//     }
-//     console.log("Transaction History Server Connection to Database Successful")                                    
-//   });                                     // process asynchronous requests in the meantime.
-//                                           // If you're also serving http, display a 503 error.
-//   db.on('error', function(err) {
-//     console.log('db error', err);
-//     if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-//       handleDisconnect();                         // lost due to either server restart, or a
-//     } else {                                      // connnection idle timeout (the wait_timeout
-//       throw err;                                  // server variable configures this)
-//     }
-//   });
-// }
-
-// handleDisconnect();
-
-// db.connect((err)=>{
-//     if(err) console.error(err);
-//     console.log("Transaction History Server Connection to Database Successful")
-// })
-// TODO: 1) Get transaction data for user
-//       2) Combine tables (Order & Order_Items) to respond back to user
-// 
-
-console.log("HERE AT TRANS");
 app.post('/', upload.none(), (req,res) => {
-    console.log("INSIDE AT TRANS");
-    //Assigned array object request to data variable
-    // res.header('Access-Control-Allow-Origin', '*');
-    // res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    // res.header('Access-Control-Allow-Headers', 'Authorization, Accept');
-    // res.header('Access-Control-Allow-Credentials', false);
     const token = req.headers.authorization;
-    const db = mysql.createConnection(db_config);
-    console.log("Database connected for transaction");
-    
-
     jwt.verify(token, 'verysecretkey', (err, coded)=>{
         if(err){
-            // res.header('Access-Control-Allow-Origin', '*');
-            // res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
-            // res.header('Access-Control-Allow-Headers', 'Authorization, Accept');
-            // res.header('Access-Control-Allow-Credentials', false);
             res.status(401).json({msg: "Please re-login/login"})
             console.error("Invalid Token: " + err);
             return;
@@ -107,10 +60,6 @@ app.post('/', upload.none(), (req,res) => {
         
         transaction.then(d => {
             console.log(d);
-            // res.header('Access-Control-Allow-Origin', '*');
-            // res.header('Access-Control-Request-Method', 'POST, OPTIONS');
-            // res.header('Access-Control-Allow-Headers', 'Authorization, Accept');
-            // res.header('Access-Control-Allow-Credentials', false);
             res.json(d);
             db.end();
         }).catch( err => {
