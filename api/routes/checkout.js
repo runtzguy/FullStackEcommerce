@@ -111,6 +111,7 @@ function createOrder(res, userID, data){
         })
         db.end();
     }  catch(err){
+        db.end();
         console.error(err);
     }
 }

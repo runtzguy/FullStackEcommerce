@@ -110,7 +110,7 @@ app.post('/', upload.none(), (req,res) => {
 function getTransactionHistory(userID){
     //TODO: Combine tables( Order & Order_Items & Products) and send it back to user;
     return new Promise((resolve, reject) => {
-        db = mysql.createConnection(db_config);
+        let db = mysql.createConnection(db_config);
         db.query(`SELECT Orders.OR_ID, Orders.OR_DATE, Order_Items.PROD_ID, Order_Items.OI_Quantity, 
         Products.PROD_Name, Products.PROD_PRICE
         FROM Orders 
@@ -118,7 +118,9 @@ function getTransactionHistory(userID){
         ON Order_Items.OR_ID=Orders.OR_ID AND Orders.CUS_ID = '${userID}'
         INNER JOIN Products ON Products.PROD_ID=Order_Items.PROD_ID;`, 
         (err, result) => {
-
+        
+        db.end();
+        
         if(err) reject(err);
         result = JSON.parse(JSON.stringify(result));
         resolve(result);

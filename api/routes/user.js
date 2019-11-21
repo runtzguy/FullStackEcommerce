@@ -120,6 +120,7 @@ app.post('/signUp', upload.none(), [
     }
     let errors = validationResult(req).formatWith(errorFormatter);
     let pw = req.body.pw1;
+    const db = mysql.createConnection(db_config);           
 
 
     uniqueEmail(req.body.email, db).then((message)=>{
@@ -138,7 +139,6 @@ app.post('/signUp', upload.none(), [
                 let id = uuid();
                 // Store hash in your password DB.
                 if(err) console.log(err);
-                let db = mysql.createConnection(db_config);
                 db.query(`INSERT INTO Customer (CUS_ID, CUS_FName, CUS_LName, CUS_Email, CUS_PW) 
                         VALUES ('${id}', '${fname}', '${lname}', '${email}', '${hash}')`, 
                     (err)=> {
@@ -164,7 +164,9 @@ app.post('/signUp', upload.none(), [
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('Access-Control-Allow-Credentials', false);
             res.json(errors);
-        } 
+        }
+        
+        db.end();
     })
 })
 
@@ -184,6 +186,9 @@ app.post('/login', upload.none(), [
         return `${msg}`;
     }
     console.log( req.body);
+
+    const db = mysql.createConnection(db_config);
+
     checkCred(req.body.email, req.body.pw, db)
     .then((d)=>{
         //Found email
@@ -202,7 +207,7 @@ app.post('/login', upload.none(), [
             msg : 'Successfully Logged In'
         });
         
-        
+        db.end();        
     })
     .catch((err)=>{
         //No Email - Unauthorized email
@@ -214,7 +219,8 @@ app.post('/login', upload.none(), [
         res.setHeader('Access-Control-Allow-Credentials', false);
         res.status(401);
         res.json(errors);
-        // res.redirect().json(errors.array());
+
+        db.end();
     })
     
     // if (!errors.isEmpty()) {
@@ -227,7 +233,6 @@ app.post('/login', upload.none(), [
 })
 function checkCred(email, pw, db){
     return new Promise( (resolve, reject) => {
-        let db = mysql.createConnection(db_config);
         db.query(`SELECT * FROM Customer WHERE CUS_Email='${email}'`, (err, result)=>{
             let data;
             if(err) console.error(err);
@@ -247,10 +252,8 @@ function checkCred(email, pw, db){
                         email : data[0]['CUS_Email']
                     })
                 }
-                db.end();
                 reject({msg :"Invalid Password"});
             } else {
-                db.end();
                 reject({ msg : "No Email Found"});
             }
         })
