@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux';
 //Actions
-import {isLoggedIn, loggedUsername, showErrors, clearErrors} from '../actions/index';
+import {isLoggedIn, showErrors, clearErrors} from '../actions/index';
 
 class Navbar extends Component {
     render(){

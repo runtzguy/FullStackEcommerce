@@ -3,12 +3,10 @@ import '../App.css';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux';
 //Actions
-import {isLoggedIn, loggedUsername, showErrors, clearErrors} from '../actions/index';
+import {isLoggedIn, showErrors, clearErrors} from '../actions/index';
 //Components
 import ShoeTile from './ShoeTile';
-import Cart from './Cart';
 import Modal from './Modal';
-import { TSExternalModuleReference } from 'babel-types';
 
 //Styling
 const productsStyle = {
@@ -18,8 +16,8 @@ const productsStyle = {
     flexWrap : 'wrap',
 }
 class Products extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             userLoggedIn : "",
             shoes : [
@@ -58,7 +56,7 @@ class Products extends Component {
             let temp = Object.assign({}, e)
             if(temp.name === name){
                 temp.selected = !selected;
-                if(temp.quantity == 0) {
+                if(temp.quantity === 0) {
                     temp.quantity = 1;
                 }
             }
@@ -71,11 +69,7 @@ class Products extends Component {
     }
     render(){
         let shoes = this.state.shoes;
-        let selectedShoes = shoes.filter((shoe)=>{
-            if(shoe.selected === true){
-                return shoe;
-            }
-        })
+        let selectedShoes = shoes.filter(shoe=>{ return shoe.selected ? shoe : null;})
         return (
             <div style={productsStyle}>
                 <Modal 
@@ -83,9 +77,9 @@ class Products extends Component {
                     isSelected={this.isSelected}
                     inputChange={this.inputChange}
                 />
-                {shoes.map((shoe, i) => 
+                {shoes.map((shoe) => 
                     <ShoeTile 
-                        key={i} 
+                        key={shoe.id} 
                         shoe={shoe} 
                         quantity={shoe.quantity} 
                         inputChange={this.inputChange}

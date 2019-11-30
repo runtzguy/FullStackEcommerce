@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux';
 //Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-//Actions
-import {isLoggedIn, loggedUsername, showErrors, clearErrors} from '../actions/index';
 //CSS Style
 import '../css/shoetile.css';
 
@@ -25,7 +21,7 @@ class ShoeQuantity extends Component {
         this.setState({quantity : inputValue});
     }
     minusChange(e,name){
-        let currV = this.state.quantity == 0 ? 0 : this.state.quantity-1;
+        let currV = this.state.quantity === 0 ? 0 : this.state.quantity-1;
         this.props.inputChange(currV, name);
         this.setState({quantity : currV})
     }
@@ -45,15 +41,6 @@ class ShoeQuantity extends Component {
         )
     }
 }
-function mapStateToProps(state){
-    return {
-        // loggedUserName : state.loggedUserName,
-        // errorAlerts : state.errorAlerts,
-        // loggedIn : state.isLogged,
-    }
-}
 
-function matchDispatchToProps(dispatch){
-    return bindActionCreators({isLoggedIn, showErrors, clearErrors}, dispatch)
-}
-export default connect(mapStateToProps, matchDispatchToProps)(ShoeQuantity);
+
+export default ShoeQuantity;

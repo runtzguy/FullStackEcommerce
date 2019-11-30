@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux';
 //Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-//Actions
-import {isLoggedIn, loggedUsername, showErrors, clearErrors} from '../actions/index';
 //Styling
 import '../css/cart.css';
 import '../css/cart-items.css';
@@ -51,15 +47,5 @@ class ItemModal extends Component {
 function priceTotal(quantity, price){
     return (quantity * price).toFixed(2);
 }
-function mapStateToProps(state){
-    return {
-        // loggedUserName : state.loggedUserName,
-        // errorAlerts : state.errorAlerts,
-        // loggedIn : state.isLogged,
-    }
-}
 
-function matchDispatchToProps(dispatch){
-    return bindActionCreators({isLoggedIn, showErrors, clearErrors}, dispatch)
-}
-export default connect(mapStateToProps, matchDispatchToProps)(ItemModal);
+export default ItemModal;

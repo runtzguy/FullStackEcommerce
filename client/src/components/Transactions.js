@@ -13,7 +13,9 @@ class Transactions extends Component {
     constructor(){
         super();
         this.state = {
-            tData : []
+            tData : [],
+            isLoaded: false,
+            statusCode : "",
         }
     }
     componentDidMount(){
@@ -27,7 +29,9 @@ class Transactions extends Component {
             }
         }).then(response => {
             return new Promise( (resolve, reject) => {
-                if(response.json()){
+                this.setState({statusCode : response.status});
+
+                if(response.status === 200){
                     resolve(response.json());
                 } else {
                     reject("Error with getting transaction data");
@@ -36,11 +40,9 @@ class Transactions extends Component {
         })
 
         dataPromise.then(data=>{
-            if(data.length != 0){
-                data.map(x=>{
-                    x.OR_DATE = x.OR_DATE.substring(0,10);
-                })
-                this.setState({tData : [...data]});
+            if(data.length !== 0){
+                data = data.map(x => x.OR_DATE = x.OR_DATE.substring(0,10));
+                this.setState({tData : [...data], isLoaded : true});
             } 
         }).catch(err => {
             console.error(err);
@@ -56,15 +58,23 @@ class Transactions extends Component {
                          {key : 'PROD_Name', name: "Name"},
                          {key : 'OI_Quantity', name : "Quantity"}   
                         ];
-        if(this.state.tData.length == 0){
-            return (<h3>You have no transaction history</h3>);
+        console.log("Status code: " + this.state.statusCode);
+        if(this.state.isLoaded && this.state.statusCode === 200){
+            if(this.state.tData.length > 0){
+                return (
+                    <ReactDataGrid
+                        columns = {columns}
+                        rowGetter={i => this.state.tData[i]}
+                        rowsCount={10}
+                    />)
+            } else {
+                return  <h3>You have no transaction history</h3> 
+            }
+        } else if (this.state.isLoaded && this.state.statusCode >= 0){
+            return <h3>Error with Server. Please reload.</h3>
         } else {
-            return (
-            <ReactDataGrid
-                columns = {columns}
-                rowGetter={i => this.state.tData[i]}
-                rowsCount={10}
-            />)
+            return <h3>Loading...</h3>
+            
         }
     }
 }

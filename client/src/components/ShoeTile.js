@@ -3,7 +3,7 @@ import '../App.css';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux';
 //Actions
-import {isLoggedIn, loggedUsername, showErrors, clearErrors} from '../actions/index';
+import {isLoggedIn, showErrors, clearErrors} from '../actions/index';
 //CSS Style
 import '../css/shoetile.css';
 //Components

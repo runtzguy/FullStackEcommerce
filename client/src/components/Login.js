@@ -40,7 +40,7 @@ class Login extends Component {
         })
         .then(response => new Promise((resolve, reject) => {
                 let resStatus = response.status;
-                if(resStatus == 200){
+                if(resStatus === 200){
                     //Login Successful
                     response.json().then( e => {
                         let fName = e.fName;
@@ -58,7 +58,7 @@ class Login extends Component {
                         
                     })
                     
-                } else if (resStatus == 307){
+                } else if (resStatus === 307){
                     //Request received but return error status 307
                     console.log("Error status: 307");
                 } else {
@@ -70,15 +70,17 @@ class Login extends Component {
         .catch(err => {
             console.log(err);
             //Request received but returned error response
-            err.json()
-                .then( d => {
-                    let errorData = JSON.stringify(d)
-                    errorData = JSON.parse(errorData);
-                    let errorArr = errorData.errors;
-                    errorArr.forEach((err)=>{
-                        this.props.showErrors(err.msg)
-                    })
-                })
+            if(err.json != null){
+                err.json()
+                    .then( d => {
+                        let errorData = JSON.stringify(d)
+                        errorData = JSON.parse(errorData);
+                        let errorArr = errorData.errors;
+                        errorArr.forEach((err)=>{
+                            this.props.showErrors(err.msg)
+                        })
+                    })    
+                }
         })
     }
     //Allows user to edit input box

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import '../App.css';
-//Font Awesome
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 //CSS Style
 import '../css/shoetile.css';
 

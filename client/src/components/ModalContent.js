@@ -16,15 +16,11 @@ import Checkout from './Checkout';
 import Alerts from './Alerts';
 
 export class ModalContent extends Component {
-  constructor(){
-    super();
-    // this.checkoutItems = this.checkoutItems.bind(this);
-  }
   render() {
     let shoes = this.props.shoes;
     return ReactDOM.createPortal(
       <FocusTrap>
-        <aside
+        <div
           aria-modal="true" 
           className="modal-cover"
           tabIndex="-1"
@@ -59,7 +55,7 @@ export class ModalContent extends Component {
                 <tbody>
                   {shoes.map((shoe) => 
                       <ItemModal
-                        key={shoe.name}
+                        key={shoe.id}
                         name={shoe.name}
                         quantity={shoe.quantity}
                         selected={shoe.selected}
@@ -72,25 +68,18 @@ export class ModalContent extends Component {
                 </tbody>
               </table>
               <Checkout
-                // checkoutItems={this.checkoutItems}
                 selectedShoes={shoes}
               />
             </div>
 
           </div>
-        </aside>
+        </div>
       </FocusTrap>,
       document.body
     );
   }
 }
-function isEmpty(obj) {
-  for(var key in obj) {
-      if(obj.hasOwnProperty(key))
-          return false;
-  }
-  return true;
-}
+
 function mapStateToProps(state){
   return {
       loggedUserName : state.loggedUserName,

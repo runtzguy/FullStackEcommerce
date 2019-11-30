@@ -14,10 +14,6 @@ import Alerts from './Alerts'
 import {clearErrors} from '../actions/index'
 
 class LoginSignup extends Component {
-    constructor(){
-        super();
- 
-    }
     componentDidMount(){
         //Clears error alerts when navigating back to this component
         if(this.props.errorAlerts){
@@ -44,13 +40,6 @@ class LoginSignup extends Component {
             </div>
         )
     }
-}
-function isEmpty(obj) {
-    for(var key in obj) {
-        if(obj.hasOwnProperty(key))
-            return false;
-    }
-    return true;
 }
 function mapStateToProps(state){
     return {

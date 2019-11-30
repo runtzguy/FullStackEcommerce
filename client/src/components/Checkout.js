@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import '../App.css';
 import {bindActionCreators} from 'redux'
-import {connect, useSelector} from 'react-redux';
-//Font Awesome
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {connect} from 'react-redux';
 //Actions
 import {isLoggedIn, successErrors,showErrors, clearErrors} from '../actions/index';
 //CSS Style
 import '../css/checkout-button.css';
 
 class Checkout extends Component{
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.clickCheckout = this.clickCheckout.bind(this);
     }
     //Clears error alerts when navigating back to this component
@@ -25,12 +23,12 @@ class Checkout extends Component{
             this.props.clearErrors();
         }
 
-        if( this.props.selectedShoes.length == 0 ){
+        if( this.props.selectedShoes.length === 0 ){
             this.props.showErrors('No items in Shopping Cart')
             return;
         }
          
-        if(isEmpty(this.props.loggedIn) || this.props.loggedIn.auth == false){
+        if(isEmpty(this.props.loggedIn) || this.props.loggedIn.auth === false){
             this.props.showErrors('Only registered users can check out items. Please Register or Login');
             return;
         } 
@@ -41,11 +39,11 @@ class Checkout extends Component{
             // addedTokenData.push(token);
             let data = JSON.stringify(this.props.selectedShoes);
             console.log("Logged in")
-            fetch('https://full-stack-ecommerce.herokuapp.com/checkout', {
+            fetch('https://full-stack-ecommerce.herokuapp.com/checkout/', {
                 method : 'post',
                 body : data,
                 headers : {
-                    'Content-Type' : 'application/json',
+                    'Accept' : 'application/json',
                     'Authorization' : sessionStorage.getItem('token'),
 
             }})
@@ -66,7 +64,7 @@ class Checkout extends Component{
 }
 function checkCartForEmptyItem(shoes){
     for(let x = 0; x < shoes.length; x++){
-        if(shoes[x].quantity == 0){
+        if(shoes[x].quantity === 0){
             return true;
         }
     }

@@ -64,7 +64,7 @@ app.post('/', upload.none(), (req,res) => {
             db.end();
         }).catch( err => {
             console.error(err);
-            console.error("Unable to get transaction history");
+            res.json({});
             db.end();
         });
     
@@ -84,7 +84,9 @@ function getTransactionHistory(userID){
         ON Order_Items.OR_ID=Orders.OR_ID AND Orders.CUS_ID = '${userID}'
         INNER JOIN Products ON Products.PROD_ID=Order_Items.PROD_ID;`, 
         (err, result) => {
-        if(err) reject(err);
+        if(err) {
+            reject("You have no transaction history")
+        };
         result = JSON.parse(JSON.stringify(result));
         console.log("INSIDE QUERY: " + result);
         resolve(result);
