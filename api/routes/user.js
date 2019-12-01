@@ -6,7 +6,7 @@ const uuid = require('uuid/v4');
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const { check, validationResult, body, expressValidator } = require('express-validator');
+const { check, validationResult, body } = require('express-validator');
 const jwt = require("jsonwebtoken");
 const cookieSession = require('cookie-session');
 

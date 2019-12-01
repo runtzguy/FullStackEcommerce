@@ -33,7 +33,7 @@ class NavForm extends Component {
             <div className="tab-container">
                 <Link 
                     id="tab-signup" 
-                    to="/components/Signup" 
+                    to="/signup" 
                     onClick={this.changeTab}
                     style={ this.state.tabSignup} 
                     data-value="signup"> 
@@ -41,7 +41,7 @@ class NavForm extends Component {
                 </Link>
                 <Link 
                     id="tab-login" 
-                    to="/components/Login" 
+                    to="/login" 
                     onClick={this.changeTab} 
                     style={ this.state.tabLogin} 
                     data-value="login">

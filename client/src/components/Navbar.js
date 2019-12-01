@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux';
 //Actions
@@ -16,15 +16,15 @@ class Navbar extends Component {
         } else{
             empty = false;
         }
-        let componentPath = empty ? "/components/LoginSignup" : "/components/Account";
+        let componentPath = empty ? "/loginsignup" : "/account";
         let linkNames = empty ? "Login/Sign Up" : "Account";
         return (
             <div className="container">
                 <h1>The Shoe Shop</h1>
                     <div className="nav-bar">
-                        <Link to="/components/Landing"><li>Home</li></Link>
-                        <Link to="/components/Products"><li>Products</li></Link>
-                        <Link to={componentPath}><li>{linkNames}</li></Link>
+                        <NavLink activeClassName="activeLink" to="/landing"><li>Home</li></NavLink>
+                        <NavLink activeClassName="activeLink" to="/products"><li>Products</li></NavLink>
+                        <NavLink activeClassName="activeLink" to={componentPath}><li>{linkNames}</li></NavLink>
                     </div>
             </div>
         );

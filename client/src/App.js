@@ -23,12 +23,13 @@ function App() {
         <Router>
           <Navbar/>
           <Switch>
-            <Route path="/components/Landing" component={Landing}/>
-            <Route path="/components/LoginSignup" component={LoginSignup}/>
-            <Route path="/components/Account" component={Account}/>
+            <Route exact path="/landing" component={Landing}/>
+            <Route exact path="/loginsignup" component={LoginSignup}/>
+            <Route exact path="/account" component={Account}/>
             {/* Must be placed at the end because it Route executes sequentially */}
-            <Route path="/components/Products" component={Products}/>
-            <Route path="/" component={Landing}/>
+            <Route exact path="/products" component={Products}/>
+            <Route exact path="/" component={Landing}/>
+            <Route render={() => <h1>404 Error: No such route</h1>} />
           </Switch>
         </Router>
     </div>

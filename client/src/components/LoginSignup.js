@@ -31,8 +31,8 @@ class LoginSignup extends Component {
                     <Router>
                         <NavForm/>
                         <Switch>
-                            <Route path="/components/Login" component={Login}/>
-                            <Route path="/components/Signup" component={Signup}/>
+                            <Route path="/Login" component={Login}/>
+                            <Route path="/Signup" component={Signup}/>
                             <Route path="*" component={Login}/>
                         </Switch>
                     </Router>

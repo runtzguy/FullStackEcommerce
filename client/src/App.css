@@ -27,7 +27,7 @@ h2{
   width: 80%;
   margin: 10px 0;
 }
-.nav-bar li:hover {
+.activeLink {
   border-bottom: 2px solid rgb(128, 56, 128) ;
   cursor: pointer;
 }

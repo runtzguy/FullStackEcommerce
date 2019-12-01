@@ -18,16 +18,21 @@ class Transactions extends Component {
             statusCode : "",
         }
     }
+    //TODO: 1) Fetch data and put in sessionStorage and state
+    //      2) Do not fetch if sessionStorage is not empty
+    //      3) Make a refresh button to fetch more data.
     componentDidMount(){
         //TODO: Fetch transaction data from server
-        let dataPromise = fetch('https://full-stack-ecommerce.herokuapp.com/userTransHist/', {
+        if(sessionStorage.getItem('history') != null){
+            console.log(sessionStorage.getItem('history'));
+        } else {
+            fetch('https://full-stack-ecommerce.herokuapp.com/userTransHist/', {
             method : 'post',
             headers : {
                 'Accept' : 'application/json',
-                'Authorization' : sessionStorage.getItem('token'),
-
-            }
-        }).then(response => {
+                'Authorization' : sessionStorage.getItem('token'),}
+            })
+            .then(response => {
             return new Promise( (resolve, reject) => {
                 this.setState({statusCode : response.status});
 
@@ -37,20 +42,20 @@ class Transactions extends Component {
                     reject("Error with getting transaction data");
                 }
             }) 
-        })
-
-        dataPromise.then(data=>{
-            if(data.length !== 0){
-                data = data.map(x => x.OR_DATE = x.OR_DATE.substring(0,10));
-                this.setState({tData : [...data], isLoaded : true});
-            } 
-        }).catch(err => {
-            console.error(err);
-        })
+            })
+            .then( data=>{
+                if(data.length !== 0){
+                    data = data.map(x => x.OR_DATE = x.OR_DATE.substring(0,10));
+                    sessionStorage.setItem('history', JSON.stringify(data));
+                    this.setState({tData : [...data], isLoaded : true});
+                } 
+            }).catch(err => {
+                console.error(err);
+            })
+        }
+        
     }
 
-    //TODO: 1) Research react table library 
-    //      2) Make table able to sort with columns in DESC and ASC order.
     render(){
         const columns = [{key : 'OR_ID', name: "Order ID"},
                          {key : 'OR_DATE', name: "Date"},
@@ -61,16 +66,19 @@ class Transactions extends Component {
         console.log("Status code: " + this.state.statusCode);
         if(this.state.isLoaded && this.state.statusCode === 200){
             if(this.state.tData.length > 0){
+                console.log("Print Table")
+                console.log(this.state.tData)
                 return (
                     <ReactDataGrid
                         columns = {columns}
                         rowGetter={i => this.state.tData[i]}
                         rowsCount={10}
+                        enableRowSelect={null}
                     />)
             } else {
                 return  <h3>You have no transaction history</h3> 
             }
-        } else if (this.state.isLoaded && this.state.statusCode >= 0){
+        } else if (this.state.statusCode === 503){
             return <h3>Error with Server. Please reload.</h3>
         } else {
             return <h3>Loading...</h3>
