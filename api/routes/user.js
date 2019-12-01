@@ -45,7 +45,6 @@ process.env.SECRET_KEY = "secret";
 // }))
 
 //Express Message Middleware
-app.use(require('connect-flash')());
 app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
   next();
@@ -60,42 +59,7 @@ const db_config = {
     //port : '3306',
 }
 
-
-//Database credentials
-// let db;
-// function handleDisconnect() {
-//   db = mysql.createConnection(db_config); // Recreate the connection, since
-//                                                   // the old one cannot be reused.
-
-//   db.connect(function(err) {              // The server is either down
-//     if(err) {                                     // or restarting (takes a while sometimes).
-//       console.log('error when connecting to db:', err);
-//       setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
-//     }
-//     console.log("User Server Database Connection Successful")                                     // to avoid a hot loop, and to allow our node script to
-//   });                                     // process asynchronous requests in the meantime.
-//                                           // If you're also serving http, display a 503 error.
-//   db.on('error', function(err) {
-//     console.log('db error', err);
-//     if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-//       handleDisconnect();                         // lost due to either server restart, or a
-//     } else {                                      // connnection idle timeout (the wait_timeout
-//       throw err;                                  // server variable configures this)
-//     }
-//   });
-// }
-
-// handleDisconnect();
-
-// db.connect((err)=>{
-//     if(err) console.error(err);
-//     console.log("User Server Database Connection Successful")
-// })
-
 /***           SIGNUP   */
-   //FORMAT OF TOKEN
-   //Authorization : Bearer <access_token>
-
 app.post('/signUp', upload.none(), [
     check('fname', "First Name must be alphabetical").isAlpha(),
     check('lname', "Last name must be alphabetical").isAlpha(),
@@ -127,9 +91,6 @@ app.post('/signUp', upload.none(), [
         //Unique email
         if (!errors.isEmpty()) {
             console.log("SIGNUP ERRORS (unique email): " + JSON.stringify(errors));
-
-            // res.setHeader('Access-Control-Allow-Origin', '*');
-            // res.setHeader('Access-Control-Allow-Credentials', false);
             res.json(errors);
             return
         } 
@@ -147,8 +108,6 @@ app.post('/signUp', upload.none(), [
 
                         db.end();
 
-                        // res.setHeader('Access-Control-Allow-Origin', '*');
-                        // res.setHeader('Access-Control-Allow-Credentials', false);
                         res.status(200).json({msg:'Successful Signup'});
                 });
             })
@@ -161,8 +120,6 @@ app.post('/signUp', upload.none(), [
         if (!errors.isEmpty()) {
             console.log("ERRORS (not unique email): " + JSON.stringify(errors));
             
-            // res.setHeader('Access-Control-Allow-Origin', '*');
-            // res.setHeader('Access-Control-Allow-Credentials', false);
             res.json(errors);
         }
         
@@ -197,8 +154,6 @@ app.post('/login', upload.none(), [
         //JWT returns a promise so response must be put inside.
         let token = jwt.sign({userData}, 'verysecretkey', {expiresIn : '1h'});
 
-        // res.setHeader('Access-Control-Allow-Origin', '*');
-        // res.setHeader('Access-Control-Allow-Credentials', false);
         res.status(200).json({
             fName : userData['fName'],
             lName : userData['lName'],
@@ -214,22 +169,11 @@ app.post('/login', upload.none(), [
         let errors = validationResult(req).formatWith(errorFormatter2);
         errors.errors.push(err);
         console.log("LOGIN ERRORS: " + JSON.stringify(errors));
-
-        // res.setHeader('Access-Control-Allow-Origin', '*');
-        // res.setHeader('Access-Control-Allow-Credentials', false);
         res.status(401);
         res.json(errors);
 
         db.end();
     })
-    
-    // if (!errors.isEmpty()) {
-    //     console.log("LOGIN ERRORS : " + JSON.stringify(errors));
-    //     res.status(422).json(errors.array());
-    //     return;
-    // } else{
-    //     res.status(200).json({msg: "Successfully Logged In"});
-    // }
 })
 function checkCred(email, pw, db){
     return new Promise( (resolve, reject) => {
