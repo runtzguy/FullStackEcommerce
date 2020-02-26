@@ -23,6 +23,7 @@ class Account extends Component {
         this.props.isLoggedOut(false);
         this.props.removeUserFromRedux();
         sessionStorage.setItem("token", "");
+        sessionStorage.setItem("history", "");
         this.setState({navigateToLanding : true});
 
     }

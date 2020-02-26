@@ -3,6 +3,8 @@ import ReactDataGrid from 'react-data-grid';
 import '../App.css';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux';
+//Server Info
+import serverInfo from './serverInfo';
 //Actions
 import {isLoggedIn, loggedLastName, loggedFirstName, showErrors, clearErrors} from '../actions/index';
 //CSS Style
@@ -26,30 +28,33 @@ class Transactions extends Component {
         if(sessionStorage.getItem('history') != null){
             console.log(sessionStorage.getItem('history'));
         } else {
-            fetch('https://full-stack-ecommerce.herokuapp.com/userTransHist/', {
+            fetch(`${serverInfo.url}/userTransHist/`, {
             method : 'post',
             headers : {
                 'Accept' : 'application/json',
                 'Authorization' : sessionStorage.getItem('token'),}
             })
+            .then(handleErrors)
             .then(response => {
-            return new Promise( (resolve, reject) => {
-                this.setState({statusCode : response.status});
-
-                if(response.status === 200){
-                    resolve(response.json());
-                } else {
-                    reject("Error with getting transaction data");
-                }
-            }) 
+                return new Promise( (resolve, reject) => {
+                    if(response.status === 200){
+                        this.setState({statusCode : response.status});
+                        resolve(response.json());
+                    } else {
+                        reject("Error with getting transaction data");
+                    }
+                }) 
             })
             .then( data=>{
+                alert("where is this");
+                console.log("Here " + data);
                 if(data.length !== 0){
                     data = data.map(x => x.OR_DATE = x.OR_DATE.substring(0,10));
                     sessionStorage.setItem('history', JSON.stringify(data));
                     this.setState({tData : [...data], isLoaded : true});
                 } 
             }).catch(err => {
+                console.log("Error below: ")
                 console.error(err);
             })
         }
@@ -64,7 +69,7 @@ class Transactions extends Component {
                          {key : 'OI_Quantity', name : "Quantity"}   
                         ];
         console.log("Status code: " + this.state.statusCode);
-        if(this.state.isLoaded && this.state.statusCode === 200){
+        if(this.state.isLoaded){
             if(this.state.tData.length > 0){
                 console.log("Print Table")
                 console.log(this.state.tData)
@@ -86,7 +91,12 @@ class Transactions extends Component {
         }
     }
 }
-
+function handleErrors(response) {
+    if (!response.ok) {
+        throw new Error("Can't connect to Heroku server");
+    }
+    return response;
+}
 function mapStateToProps(state){
     return {
         loggedUsername : state.loggedUsername,

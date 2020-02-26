@@ -9,6 +9,7 @@ const saltRounds = 10;
 const { check, validationResult, body } = require('express-validator');
 const jwt = require("jsonwebtoken");
 const cookieSession = require('cookie-session');
+const db_config = require('./dbConfig');
 
 /* Module for handling multipart bodies. IE: multipart/form-data (important)
 
@@ -51,13 +52,12 @@ app.use(function (req, res, next) {
 });
 
 //Database Configs
-const db_config = {
-    host: 'us-cdbr-iron-east-05.cleardb.net',
-    user: 'bb3445d217854a',
-    password: '11e0df20',
-    database: 'heroku_3f1750c9c0f5c78',
-    //port : '3306',
-}
+// const db_config = {
+//     host: 'us-cdbr-iron-east-05.cleardb.net',
+//     user: 'bb3445d217854a',
+//     password: '11e0df20',
+//     database: 'heroku_3f1750c9c0f5c78',
+// }
 
 /***           SIGNUP   */
 app.post('/signUp', upload.none(), [
@@ -138,7 +138,7 @@ app.post('/login', upload.none(), [
         }
         throw new Error("Please use valid email address format");
     })],
-    (req,res,next) =>{
+    (req,res) =>{
     const errorFormatter2 = ({msg}) => {
         return `${msg}`;
     }
@@ -165,13 +165,16 @@ app.post('/login', upload.none(), [
         db.end();        
     })
     .catch((err)=>{
+        console.log(err);
         //No Email - Unauthorized email
         let errors = validationResult(req).formatWith(errorFormatter2);
         errors.errors.push(err);
         console.log("LOGIN ERRORS: " + JSON.stringify(errors));
-        res.status(401);
-        res.json(errors);
-
+        //422 = status code means the server understands the content type of the request entity 
+        //(hence a 415 (Unsupported Media Type) status code is inappropriate), 
+        //and the syntax of the request entity is correct 
+        //(thus a 400 (Bad Request) status code is inappropriate) but was unable to process the contained instructions.
+        res.status(422).json(errors);
         db.end();
     })
 })

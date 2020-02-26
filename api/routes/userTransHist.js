@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const mysql = require('mysql');
 const jwt = require("jsonwebtoken");
 const cookieSession = require('cookie-session');
+const db_config = require('./dbConfig');
 
 /* Module for handling multipart bodies. IE: multipart/form-data (important)
 
@@ -31,13 +32,12 @@ bodyParser.urlencoded({ extended : false});
 process.env.SECRET_KEY = "secret";
 
 //Database Configs
-const db_config = {
-    host: 'us-cdbr-iron-east-05.cleardb.net',
-    user: 'bb3445d217854a',
-    password: '11e0df20',
-    database: 'heroku_3f1750c9c0f5c78',
-    //port : '3306',
-}
+// const db_config = {
+//     host: 'us-cdbr-iron-east-05.cleardb.net',
+//     user: 'bb3445d217854a',
+//     password: '11e0df20',
+//     database: 'heroku_3f1750c9c0f5c78',
+// }
 
 const db = mysql.createConnection(db_config);
 

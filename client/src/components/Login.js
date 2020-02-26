@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import '../App.css';
 import {bindActionCreators} from 'redux';
+//Server Info
+import serverInfo from './serverInfo';
 //Actions
 import {isLoggedIn, loggedFirstName, loggedLastName, showErrors, clearErrors, successErrors} from '../actions/index'
 
@@ -31,13 +33,14 @@ class Login extends Component {
             this.props.clearErrors();
         }
         //https://full-stack-ecommerce.herokuapp.com
-        fetch('https://full-stack-ecommerce.herokuapp.com/user/login', {
+        fetch(`${serverInfo.url}/user/login`, {
             method : 'post',
             body : data,
             headers : {
                 'Accept' : 'application/json'
             }
         })
+        .then(handleErrors)
         .then(response => new Promise((resolve, reject) => {
                 let resStatus = response.status;
                 if(resStatus === 200){
@@ -68,7 +71,8 @@ class Login extends Component {
             })
         )
         .catch(err => {
-            console.log(err);
+            console.log("Error Below:")
+            console.error(err);
             //Request received but returned error response
             if(err.json != null){
                 err.json()
@@ -104,6 +108,14 @@ class Login extends Component {
         )
     }
 }
+
+function handleErrors(response) {
+    if (!response.ok) {
+        throw new Error("Can't connect to Heroku server");
+    }
+    return response;
+}
+
 function mapStateToProps(state){
     return {
         loggedUserName : state.loggedUserName,
